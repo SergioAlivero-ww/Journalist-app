@@ -4,18 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Journalist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="page">
     <header id="header_sec">
-        <h1 id="h1header">Journalist</h1>
-        <p id="pheader">Quiet log of my pathway</p>
+        <h1 id="h1header">Journalist.</h1>
+        <p id="pheader"> quiet log for pauses and notes along your pathway</p>
     </header>
     <main id="main_sec">
-        <div id="editor">
-            <textarea id="journal_editor" placeholder="Write your journal entry here..."></textarea>
-            <button id="save_journal_button">Save Entry</button>
-        </div>
+        
+            <div id="journal">
+                <p id="journal_label">What is on your mind?</p>
+                <textarea id="journal_editor" placeholder="Write your journal entry here..."></textarea>
+                <button id="save_journal_button">Save Entry</button>  
+            </div>
     </main>
     <section id="entries_sec">
         <input type="text" id="search_input" placeholder="Search entries...">
@@ -23,7 +29,7 @@
             <!-- Journal entries will be displayed here -->
         </div>
     </section>
-
+    </div>
 </body>
 <script src="script.js"></script>
 </html>

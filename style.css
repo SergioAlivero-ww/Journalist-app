@@ -1,0 +1,96 @@
+/* 
+background color: #FAF9F6;
+color: #1A1A1A;
+drugorzędny kolor: #4A4A4A
+*/
+
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Lora";
+    background-color: #FAF9F6;
+    color: #1A1A1A;
+    min-height: 100vh;
+    
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+}
+
+.page{
+    max-width: 1000px;
+    width: 85%;
+    padding: 0 16px 100px;    
+    margin: 0 auto;
+}
+
+#header_sec {
+    text-align: center;
+    padding-top: 150px;
+    padding-bottom: 80px;
+    margin-bottom: 40px;
+}
+
+#h1header {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: 6px;
+}
+
+#pheader {
+    font-size: 18px;
+    color: #6F665C;
+    line-height: 1.6;
+    letter-spacing: 0.06em;
+    margin-top: 8px;
+}
+
+
+
+
+#journal{
+    display: flex;
+    flex-direction: column;
+    max-width: 960px;
+    width: 90%;
+    margin: 0 auto;
+    gap: 20px;
+    padding: 32px;
+    background-color: #3E3730;
+    border-radius: 8px;
+}
+
+#journal_editor{
+   
+    
+    gap: 12px;
+    width: 100%;
+    border: none;
+    padding: 16px 12px;
+    resize: none;
+    box-sizing: border-box;
+    height: 260px;
+    font-size: 16px;
+    font-family: "Lora";
+    line-height: 1.8;
+    border-radius: 4px;
+}
+
+p#journal_label{
+    color: #FAF9F6;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.10em;
+    margin-bottom: -5px;
+    margin-top: -15px;
+    text-align: center;
+}
+
+#journal_editor:focus {
+    outline: none;
+    box-shadow: 0 0 5px #A89F94;
+}

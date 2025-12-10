@@ -5,3 +5,9 @@ Quiet log of my pathway.
 
 Minimalist journal app I am building to practice HTML, CSS and JavaScript.
 Right now it's just a basic layout with an editor and a list of entries.
+
+10.12.2025.
+
+Dodałem style do przecisku "SAVE ENRIES"
+Dodałem style do paska SEARCH pod edytorem
+

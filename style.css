@@ -30,8 +30,8 @@ h1, h2, h3, h4, h5, h6, p {
 #header_sec {
     text-align: center;
     padding-top: 150px;
-    padding-bottom: 80px;
-    margin-bottom: 40px;
+    padding-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 #h1header {
@@ -70,14 +70,16 @@ h1, h2, h3, h4, h5, h6, p {
     gap: 12px;
     width: 100%;
     border: none;
-    padding: 16px 12px;
+    padding: 20px 22px;
     resize: none;
     box-sizing: border-box;
     height: 260px;
-    font-size: 16px;
+    font-size: 18px;
     font-family: "Lora";
-    line-height: 1.8;
+    line-height: 1.9;
     border-radius: 4px;
+    letter-spacing: 0.03em;
+    color: #2B2621;
 }
 
 p#journal_label{
@@ -92,5 +94,43 @@ p#journal_label{
 
 #journal_editor:focus {
     outline: none;
+    box-shadow: 0 0 5px #A89F94;
+}
+
+#save_journal_button {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-radius: 4px;
+    background-color: #F5F0E8;
+    color: #3E3730;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+#save_journal_button:hover {
+  background-color: #E4D4C4;
+}
+#save_journal_button:active {
+  background-color: #CBB8A3;
+}
+
+#entries_sec {
+    max-width: 960px;
+    width: 90%;
+    margin: 40px auto 0;
+    
+}
+
+#search_input {
+  width: 260px;
+  padding: 6px 10px;
+  border: 1px solid #D0C4B5;
+  border-radius: 20px;
+  font-size: 13px;
+  background-color: #FAF9F6;
+   outline: none;
     box-shadow: 0 0 5px #A89F94;
 }

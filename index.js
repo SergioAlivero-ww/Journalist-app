@@ -1,6 +1,7 @@
 const journal = document.getElementById("journal_editor");
 const saveButton = document.getElementById("save_journal_button");
 const showEntries = document.getElementById("entries_container");
+const journalTitle = document.getElementById("entry_title");
 
 function autoResize() {
     journal.style.height = "auto";
@@ -24,9 +25,10 @@ function loadEntries(){
 };
 loadEntries();
 
-function createEntry(content){
+function createEntry(title, content){
     return {
     id: Date.now().toString(),
+    title,
     content,
     createdAt: new Date().toISOString(),
     };
@@ -52,9 +54,21 @@ function renderEntries(){
     });
 
     wrapper.innerHTML = `
+    <h2 class="journal_entry_title">${entry.title}</h2>
     <small class="journal_entry_date">${date}</small>
     <p class="journal_entry_content">${entry.content}</p>
     `;
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = '×';
+    deleteButton.classList.add('journal_entry_delete');
+    deleteButton.addEventListener('click', () => {
+        entries = entries.filter(e => e.id !== entry.id);
+        saveEntries();
+        renderEntries();
+    });
+
+    wrapper.appendChild(deleteButton);
 
     showEntries.appendChild(wrapper);
 });
@@ -67,7 +81,10 @@ saveButton.addEventListener('click', () => {
     const text = journal.value.trim();
     if (!text) return;
 
-    const entry = createEntry(text);
+    const title = journalTitle.value.trim();
+    if (!title) return;
+
+    const entry = createEntry(text, title);
 
     entries.unshift(entry);
 
@@ -78,9 +95,11 @@ saveButton.addEventListener('click', () => {
     console.log(entries);
 
     journal.value = "";
+    journalTitle.value = "";
 
     autoResize();
 
 });
 
 renderEntries();
+

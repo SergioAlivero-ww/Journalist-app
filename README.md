@@ -22,3 +22,15 @@ W pełni rozumiem teraz przepływ: wpis z textarea → createEntry → tablica e
 Dodałem też obsługę localStorage: wpisy zapisują się po każdym „Save Entry” i wracają po odświeżeniu strony (saveEntries + loadEntries z JSON.stringify / JSON.parse).​
 UI kartki z wpisem jest dopieszczone i wyrównane do search bara – „Journalist” ma już swój pierwszy, działający kształt.
 
+Koniec 19.12.2025.
+-dodano pole tytułu wpisu nad edytorem treści
+-rozbudowano createEntry, żeby zapisywać title, content i createdAt
+-wpisy z tytułem są zapisywane w localStorage i poprawnie wczytywane po odświeżeniu
+-lista wpisów pokazuje teraz tytuł nad treścią w kartach
+-działa usuwanie wpisów przyciskiem × wraz z aktualizacją localStorage
+-po zapisie czyszczone są zarówno pole tytułu, jak i textarea z treścią
+-plan na jutro: teasery treści w liście, kliknięcie w wpis → widok pojedynczego wpisu, przełączanie między listą a widokiem szczegółowym.
+
+Plan na juto:
+-teasery treści w liście, kliknięcie w wpis → widok pojedynczego wpisu, przełączanie między listą a widokiem szczegółowym.
+

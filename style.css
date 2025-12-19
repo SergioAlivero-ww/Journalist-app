@@ -164,11 +164,12 @@ p#journal_label{
 
 .journal_entry_date {
   display: block;
-  margin-bottom: 0.35rem;
-  font-size: 1rem;
+  margin-bottom: 10px;
+  font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #8a8175;
+  margin-top: -5px;
   
 }
 
@@ -179,4 +180,44 @@ p#journal_label{
   color: #1A1A1A;
   white-space: pre-wrap; /* zachowuje entery z textarea */
 
+}
+
+.journal_entry {
+  position: relative;
+}
+
+.journal_entry_delete {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: none;
+  background: transparent;
+  color: #8a8175;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.journal_entry_delete:hover {
+  color: #3E3730;
+}
+
+#entry_title {
+    padding: 10px 15px;
+    font-family: "Lora";
+    font-weight: 400;
+    font-size: 20px;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    letter-spacing: 0.03em;
+    color: #2B2621;
+    text-align: center;
+}
+
+.journal_entry_title {
+    margin-top: -5px;
+    margin-bottom: 3px;
+    font-size: 22px;
+    font-weight: 450;
+    color: #5c5248;
 }

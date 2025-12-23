@@ -34,3 +34,15 @@ Koniec 19.12.2025.
 Plan na juto:
 -teasery treści w liście, kliknięcie w wpis → widok pojedynczego wpisu, przełączanie między listą a widokiem szczegółowym.
 
+23.12.2025.
+
+dodano funkcję createTeaser skracającą treść wpisu do wybranej liczby znaków z ...
+
+lista wpisów pokazuje teraz tytuł, datę i skrócony teaser zamiast pełnej treści
+
+kliknięcie w kartkę wpisu otwiera widok pojedynczego wpisu z pełną treścią
+
+widok wpisu ma własny layout (karta na środku, dopasowane typografie)
+
+przycisk „All entries” wraca z widoku pojedynczego wpisu do edytora i listy
+

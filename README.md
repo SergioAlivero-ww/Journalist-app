@@ -46,3 +46,9 @@ widok wpisu ma własny layout (karta na środku, dopasowane typografie)
 
 przycisk „All entries” wraca z widoku pojedynczego wpisu do edytora i listy
 
+04.01.2025.
+
+**Edit/Update** - przycisk Edit wypełnia textarea + title istniejącym wpisem, 
+"Save Entry" → "Update Entry". Aktualizacja przez `map()` bez duplikatów. 
+Reset buttona + pól po update.
+

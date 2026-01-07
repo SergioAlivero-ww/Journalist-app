@@ -52,3 +52,70 @@ przycisk „All entries” wraca z widoku pojedynczego wpisu do edytora i listy
 "Save Entry" → "Update Entry". Aktualizacja przez `map()` bez duplikatów. 
 Reset buttona + pól po update.
 
+05.01.2025.
+
+-Refaktoryzowałem Edit tworząc dla jego logiki odzielną funkcję "startEdit"
+Credits
+Dziękuję Perplexity AI za pomoc w debugowaniu aplikacji Journal App. Szczegółowe wskazówki pozwoliły naprawić krytyczny błąd z filtrowaniem kategorii.
+
+ Naprawiono błąd filtrowania kategorii
+
+Problem: Wybór kategorii z dropdown nie działał przy pierwszym użyciu strony. Działał dopiero po wpisaniu i wyczyszczeniu wyszukiwarki.
+Przyczyna:
+
+Event listenery dla categoryfilter (change) i search_input (input) były zagnieżdżone wewnątrz siebie nawzajem
+
+onFilterChange() definiowano w listenerze input search, więc listener change dla kategorii podpinano dopiero po pierwszym keystroke w search
+
+Kolejne input dodawały duplikaty listenerów (memory leak)
+
+Rozwiązanie (usuwa problematyczny blok ~linie 140-155):
+
+javascript
+// USUNIĘTO zagnieżdżone listenery i zastąpiono:
+function onFilterChange() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const categorySelect = document.getElementById('categoryfilter');
+    filterEntries(categorySelect.value, searchTerm);
+}
+
+categorySelect.addEventListener('change', onFilterChange);
+searchInput.addEventListener('input', onFilterChange);
+
+Journal App - Update 07.01.2026
+
+Pełny Edit Flow - Zero niespodzianek
+
+07.01.2026.
+
+Cały system edycji działa perfekcyjnie:
+Tworzenie wpisu w głównym edytorze (tytuł + kategoria + treść)
+Edycja z głównej listy → kliknij ✎ → główny edytor z danymi
+Edycja z poziomu szczegółowego → kliknij wpis → ✎ Edit → on-place edycja w tym samym widoku
+Po każdym saveEntries() automatycznie:
+populateCategoryFilter() - kategorie live w dropdown
+renderEntries() - lista natychmiast zaktualizowana
+localStorage - trwałe zapisanie
+Filtry i wyszukiwanie
+Search input - live search po tytule/treści/dacie/kategorii
+Category select - dynamicznie wczytuje unikalne kategorie z entries
+Kombinacja obu filtrów - działa płynnie równolegle
+Nowa kategoria → natychmiast widoczna w select bez refresh
+CSS & UX - Dopracowane detale
+Spójne border-radius, font-weight, kolorystyka
+Gradientowe przyciski z hover/scale efektami
+Focus states i płynne przejścia
+Responsywne inputy (brak overflow)
+Kategoria przy prawej krawędzi tytułu w widoku szczegółowym
+
+Podsumowanie 07.01.2026
+Aplikacja gotowa do codziennego użytku - pełny CRUD + filtry w localStorage:
+Stwórz wpis → title + category + content → Save
+Search lub Category filter → live results
+Kliknij wpis → pełny widok + Edit on-place
+Save changes → natychmiastowa aktualizacja (bez refresh)
+Wszystko trwałe w localStorage
+Refleksja deweloperska: Każdy debugowany problem (event listeners, DOM manipulation, state management) buduje coraz głębsze zrozumienie JavaScript frontend. Czasochłonne, ale wartościowe.
+
+Status: Production-ready (private use) - stabilna, intuicyjna, profesjonalna. Gotowa na kolejne features.
+

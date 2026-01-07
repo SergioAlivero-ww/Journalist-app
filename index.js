@@ -6,6 +6,10 @@ const entryDetail = document.getElementById("entry_detail");
 const entriesSec = document.getElementById("entries_sec");
 const mainSec = document.getElementById('main_sec');
 const searchInput = document.getElementById('search_input');
+const categorySelect = document.getElementById('categoryfilter');
+const categoryInput = document.getElementById('entry_category');
+
+
 
 function autoResize() {
     journal.style.height = "auto";
@@ -15,8 +19,13 @@ journal.addEventListener('input', autoResize);
 autoResize();
 
 
+
+
 let entries = [];
 let currentlyEditingId = null;
+
+
+
 
 function saveEntries(){
     localStorage.setItem('journalEntries', JSON.stringify(entries));
@@ -28,13 +37,31 @@ function loadEntries(){
         entries = JSON.parse(storedEntries);
     }
 };
-loadEntries();
 
-function createEntry(title, content){
+function populateCategoryFilter() {
+    const select = document.getElementById('categoryfilter');
+    const categories = [...new Set(entries.map(entry => entry.category))];  // Unikalne kategorie
+    
+    select.innerHTML = '<option value="">Wszystkie kategorie</option>';
+    categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        select.appendChild(option);
+    });
+}
+
+loadEntries();
+populateCategoryFilter();
+
+
+
+function createEntry(title, content, category = "Uncategorized"){
     return {
     id: Date.now().toString(),
     title,
     content,
+    category,
     createdAt: new Date().toISOString(),
     };
     };
@@ -50,9 +77,22 @@ function showListView() {
   mainSec.style.display = 'block';
   entriesSec.style.display = 'block';
   entryDetail.style.display = 'none';
+
+  renderEntries();
+  populateCategoryFilter();
 }
 
+function startEdit(entryId) {
+    const entry = entries.find(e => e.id === entryId);
+    if (!entry) return;
 
+    currentlyEditingId = entryId;
+    journalTitle.value = entry.title;
+    journal.value = entry.content;
+    categoryInput.value = entry.category;
+    saveButton.textContent = 'Update Entry';
+    journal.focus();
+}
 
 function renderEntries(list = entries){
     showEntries.innerHTML = "";
@@ -78,10 +118,14 @@ function renderEntries(list = entries){
     });
 
     const teaser = createTeaser(entry.content, 30);
+    const badgeHTML = `<span class="category-badge">${entry.category}</span>`;
+
 
     wrapper.innerHTML = `
-    <h2 class="journal_entry_title">${entry.title}</h2>
+    <div class="title_category"><h2 class="journal_entry_title">${entry.title}</h2>
+    <span class="category-badge">${entry.category}</span></div>
     <small class="journal_entry_date">${date}</small>
+    
     <p class="journal_entry_content">${teaser}</p>
     `;
 
@@ -91,7 +135,8 @@ function renderEntries(list = entries){
     deleteButton.addEventListener('click', () => {
     entries = entries.filter(e => e.id !== entry.id);
     saveEntries();
-    renderEntries();
+    renderEntries(entries);
+    populateCategoryFilter();
     });
 
     wrapper.appendChild(deleteButton);
@@ -101,12 +146,7 @@ function renderEntries(list = entries){
     editButton.classList.add('journal_entry_edit');
     editButton.addEventListener('click', () => {
         event.stopPropagation();
-       const selectedEntry = entries.find(e => e.id === entry.id);
-       currentlyEditingId = entry.id; 
-
-       journalTitle.value = selectedEntry.title;
-       journal.value = selectedEntry.content;
-       saveButton.textContent = 'Update Entry';
+        startEdit(entry.id);
     });
     wrapper.appendChild(editButton);
 
@@ -125,10 +165,30 @@ function matchesSearch(entry, searchTerm) {
         minute: '2-digit'
     }).toLowerCase();
 
+    const categoryText = entry.category.toLowerCase();  
+
+
     return titleText.includes(searchTerm) ||
     contentText.includes(searchTerm) || 
-    dateText.includes(searchTerm);
+    dateText.includes(searchTerm) ||
+    categoryText.includes(searchTerm);
 };
+
+function filterEntries(categoryFilter, searchTerm) {
+    let filtered = entries;
+    
+    // Filtr category (dokładne dopasowanie)
+    if (categoryFilter) {
+        filtered = filtered.filter(entry => entry.category === categoryFilter);
+    }
+    if (searchTerm) {
+        filtered = filtered.filter(entry => matchesSearch(entry, searchTerm));
+    }
+     renderEntries(filtered);
+};
+    
+   
+
 
 function openEntry(id) {
     const entry = entries.find(e => e.id === id);
@@ -143,78 +203,127 @@ function openEntry(id) {
     });
 
     entryDetail.innerHTML = `
-     <article class="entry_detail_card">
-    <button id="BackAllEntries">All entries</button>
-    <h2>${entry.title}</h2>
-    <small>${date}</small>
-    <p>${entry.content}</p>
-    
-    `;
+    <div class="entry_detail_header">
+        <button id="BackAllEntries" class="detail-header-btn">← All entries</button>
+        <button id="editFromDetail" class="detail-header-btn">✎ Edit</button>
+    </div>
+     <article class="entry_detail_card" id="detailCard">
+        <div id="readMode">
 
-    const backButton = document.getElementById('BackAllEntries');
+                <div class="title_category_detail">
+                <h2 class="title">${entry.title}</h2>
+                <span class="category-badge">${entry.category}</span>
+                </div>
+
+                <div class="detail_meta">
+                    <small>${date}</small>
+                </div>
+                <p class="full-entry-content">${entry.content}</p>
+        </div>
+        <div id="editMode" style="display: none;">
+                <input type="text" id="editTitle" value="${entry.title}" placeholder="Tytuł...">
+                <textarea id="editContent" placeholder="Treść...">${entry.content}</textarea>
+                <div class="edit_category_row">
+                    <input type="text" id="editCategory" value="${entry.category}" placeholder="Kategoria">
+                    <div class="save_cansel_buttons">
+                        <button id="saveEditDetail" class="save-edit-button"> Save Changes</button>
+                        <button id="cancelEditDetail" class="cancel-edit-button"> Cancel</button>
+                    </div>
+                </div>
+            </div>
+        
+    </article>
+    `;
 
     mainSec.style.display = 'none';
     entriesSec.style.display = 'none';
     entryDetail.style.display = 'block';
 
-    
-    backButton.addEventListener('click', showListView);
+        document.getElementById('BackAllEntries').addEventListener('click', showListView);
+        document.getElementById('editFromDetail').addEventListener('click', function() {
+        document.getElementById('readMode').style.display = 'none';
+        document.getElementById('editMode').style.display = 'block';
+        document.getElementById('editContent').focus();
+    });
+    document.getElementById('saveEditDetail').addEventListener('click', function() {
+        const newTitle = document.getElementById('editTitle').value.trim();
+        const newContent = document.getElementById('editContent').value.trim();
+        const newCategory = document.getElementById('editCategory').value.trim() || 'Uncategorized';
+        if (!newTitle || !newContent) return alert('Tytuł i treść nie mogą być puste!');
+        entries = entries.map(e => e.id === id ? { ...e, title: newTitle, content: newContent, category: newCategory } : e);
+        saveEntries();
+        populateCategoryFilter();
 
+        const updatedEntry = entries.find(e => e.id === id);
+        const date = new Date(updatedEntry.createdAt).toLocaleString('pl-PL', {
+        year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
 
+      document.getElementById('readMode').innerHTML = `
+        <div class="title_category_after_edit">
+            <h2>${updatedEntry.title}</h2>
+            <span class="category-badge">${updatedEntry.category}</span>
+        </div>
+        <div class="detail_meta">
+            <small>${date}</small>
+        </div>
+        <p class="full-entry-content">${updatedEntry.content}</p>
+    `;
+
+     document.getElementById('editFromDetail').addEventListener('click', function() {
+        document.getElementById('readMode').style.display = 'none';
+        document.getElementById('editMode').style.display = 'block';
+        document.getElementById('editContent').focus();
+    });
+
+        document.getElementById('readMode').style.display = 'block';
+        document.getElementById('editMode').style.display = 'none';
+    });
+    document.getElementById('cancelEditDetail').addEventListener('click', showListView);
 }
 
+function onFilterChange() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const categorySelect = document.getElementById('categoryfilter');
+    filterEntries(categorySelect.value, searchTerm);
+}
+
+categorySelect.addEventListener('change', onFilterChange);
+searchInput.addEventListener('input', onFilterChange);
 
 
-searchInput.addEventListener('input', () => {
-  const searchTerm = searchInput.value.trim().toLowerCase();
 
-  if (!searchTerm) {
-    // nic nie wpisane → pokazujemy wszystkie wpisy
-    renderEntries(entries);
-    return;
-  }
-
-  const filtered = entries.filter(entry => matchesSearch(entry, searchTerm));
-  renderEntries(filtered);
-});
 
 saveButton.addEventListener('click', () => {
-
     const text = journal.value.trim();
     if (!text) return window.alert("Journal entry cannot be empty!");
-
     const title = journalTitle.value.trim();
     if (!title) return window.alert("Journal entry must have a title!");
-
-    const entry = createEntry(title, text);
+    
+    const categoryInput = document.getElementById('entry_category');
+    const category = categoryInput.value.trim() || 'Uncategorized';
+    categoryInput.value = '';
 
     if (saveButton.textContent === 'Update Entry') {
         entries = entries.map(existingEntry => 
-    existingEntry.id === currentlyEditingId 
-    ? { ...existingEntry, title: journalTitle.value, content: journal.value }
-    : existingEntry 
+            existingEntry.id === currentlyEditingId 
+                ? { ...existingEntry, title, content: text, category }
+                : existingEntry 
+        );
+        currentlyEditingId = null;
+    } else {
+        const entry = createEntry(title, text, category);
+        entries.unshift(entry);
+    }
     
-);
-
-} else {entries.unshift(entry);};
-saveButton.textContent = 'Save Entry';
-
-
-    
-
+    saveButton.textContent = 'Save Entry';
     saveEntries();
-
     renderEntries();
-
-
+    populateCategoryFilter();
     console.log(entries);
-
     journal.value = "";
     journalTitle.value = "";
-
     autoResize();
-
 });
-
 renderEntries();
 

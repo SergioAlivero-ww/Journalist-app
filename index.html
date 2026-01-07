@@ -20,6 +20,7 @@
         
             <div id="journal">
                 <p id="journal_label">What is on your mind?</p>
+                <input id="entry_category" type="text" placeholder="Category (np. Nauka, Praca)">
                 <input id="entry_title" type="text" placeholder="Entry Title">
                 <textarea id="journal_editor" placeholder="Write your journal entry here..."></textarea>
                 <button id="save_journal_button">Save Entry</button>  
@@ -27,7 +28,13 @@
             
     </main>
     <section id="entries_sec">
-        <input type="text" id="search_input" placeholder="Search entries...">
+        <div class="filters_row">
+            <input type="text" id="search_input" placeholder="Search entries...">
+            <select id="categoryfilter">
+                <option value="">Wszystkie kategorie</option>
+            </select>
+        </div>
+
         <div id="entries_container">
             <!-- Journal entries will be displayed here -->
         </div>

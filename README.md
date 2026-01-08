@@ -119,3 +119,12 @@ Refleksja deweloperska: Każdy debugowany problem (event listeners, DOM manipula
 
 Status: Production-ready (private use) - stabilna, intuicyjna, profesjonalna. Gotowa na kolejne features.
 
+
+08.01.2026.
+-CSS Variables - beżowo-grafitowa paleta (light/dark)
+-Toggle działa z każdego widoku (górny prawy róg)  
+-localStorage - pamięta wybór między sesjami
+-System preference detection (prefers-color-scheme)
+-Przycisk "Dark/Light" z dynamicznym tekstem
+-Smooth transitions między motywami
+

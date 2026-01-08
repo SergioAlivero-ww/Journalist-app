@@ -8,7 +8,16 @@ const mainSec = document.getElementById('main_sec');
 const searchInput = document.getElementById('search_input');
 const categorySelect = document.getElementById('categoryfilter');
 const categoryInput = document.getElementById('entry_category');
+const themeToggle = document.getElementById('themeToggle');
 
+
+
+const savedTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia &&
+  window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+document.documentElement.setAttribute('data-theme', initialTheme);
 
 
 function autoResize() {
@@ -325,5 +334,26 @@ saveButton.addEventListener('click', () => {
     journalTitle.value = "";
     autoResize();
 });
+
+
+function updateThemeToggleLabel(theme) {
+  // prosty tekst: pokazujemy co się stanie po kliknięciu
+  themeToggle.textContent = theme === 'dark' ? 'Light' : 'Dark';
+}
+
+if (themeToggle) {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  updateThemeToggleLabel(currentTheme);
+
+  themeToggle.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateThemeToggleLabel(next);
+  });
+}
+
 renderEntries();
 

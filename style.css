@@ -1,16 +1,56 @@
 /* 
-background color: #FAF9F6;
-color: #1A1A1A;
+background color: #FAF9F6; var(--bg-body) - jasne tło strony
+color: var(--text-main);
 drugorzędny kolor: #4A4A4A
+background-color: #3E3730; - ciemny panel edytora
+color: var(--text-muted); - szary tekst nagłówka
+color: var(--text-dark); - ciemny tekst w edytorze
 */
 
+/* Dark Mode - CSS Variables */
+:root {
+  /* LIGHT MODE - twoje obecne kolory */
+  --bg-body: #FAF9F6;
+  --bg-card: #ffffff;
+  --bg-panel: #3e3e3e;
+  --text-main: #1A1A1A;
+  --text-muted: #6F665C;
+  --text-dark: #464545;
+  --border-light: #e1e5e9;
+  --btn-light: #f7f0e3;
+  --date-light: #a99c8b;
+  --btn-hover: #fffbf9;
+  --focused-editor-bg: #ffffff;
+  --btns-SaveAndCancel:#E4D4C4;
+  --btns-SaveAndCancel-hover:#634c46;
+  --btns-SaveAndCancel-text-hover:rgb(238, 238, 238);
+}
+
+[data-theme="dark"] {
+  /* DARK MODE - ODWRÓCONE */
+  --bg-body: #3e3e3e;       /* Ciemny grafit */
+  --bg-card: #2a2a2a;        /* Trochę jaśniejszy */
+  --bg-panel: #FAF9F6;       /* Grafitowy panel */
+  --text-main: #dad8d5;      /* Jasny beż */
+  --text-muted: #b8b6b3;     /* Średni beż */
+  --text-dark: #dad6cf;      /* Wyblakły beż */
+  --border-light: #404040;
+  --btn-light: #211f1f;
+  --date-light: #bbbab8;
+  --btn-hover: #7f7f7f;
+  --focused-editor-bg: #282626;
+  --btns-SaveAndCancel: #634c46;
+  --btns-SaveAndCancel-hover: #E4D4C4;
+  --btns-SaveAndCancel-text-hover: #3e3e3e;
+}
+/* CSS usual */
 
 body {
     padding: 0;
     margin: 0;
     font-family: "Lora";
-    background-color: #FAF9F6;
-    color: #1A1A1A;
+    background-color: var(--bg-body);
+    color: var(--text-main);
     min-height: 100vh;
     
 }
@@ -43,7 +83,7 @@ h1, h2, h3, h4, h5, h6, p {
 
 #pheader {
     font-size: 18px;
-    color: #6F665C;
+    color: var(--text-muted);
     line-height: 1.6;
     letter-spacing: 0.06em;
     margin-top: 8px;
@@ -60,7 +100,7 @@ h1, h2, h3, h4, h5, h6, p {
     margin: 0 auto;
     gap: 20px;
     padding: 32px;
-    background-color: #3E3730;
+    background-color: var(--bg-panel);
     border-radius: 8px;
 }
 
@@ -79,17 +119,18 @@ h1, h2, h3, h4, h5, h6, p {
     line-height: 1.9;
     border-radius: 4px;
     letter-spacing: 0.03em;
-    color: #2B2621;
+    color: var(--text-dark);
 }
 
 #journal_editor {
   min-height: 200px;
   height: auto;
   overflow: hidden;
+  background-color: var(--bg-body);
 }
 
 p#journal_label{
-    color: #FAF9F6;
+    color: var(--bg-body);
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0.10em;
@@ -98,30 +139,32 @@ p#journal_label{
     text-align: center;
     font-family: "Lora";
 }
-
 #entry_category {
     padding: 10px 12px;
     border: none;
     border-radius: 4px;
-    
+    color: var(--text-dark);
     font-size: 16px;
     min-width: 180px;
     cursor: pointer;
     font-family: "Lora";
     outline: none;
+    background-color: var(--bg-body);
 }
+
 #entry_title {
     padding: 10px 15px;
     font-family: "Lora";
     font-weight: 400;
-    font-size: 20px;
+    font-size: 23px;
     border: none;
     border-radius: 4px;
     box-sizing: border-box;
     letter-spacing: 0.05em;
-    color: #2B2621;
+    color: var(--text-dark);
     text-align: center;
     outline: none;
+    background-color: var(--bg-body);
 }
 #journal_editor:focus {
     outline: none;
@@ -132,8 +175,8 @@ p#journal_label{
     padding: 10px 0;
     border: none;
     border-radius: 4px;
-    background-color: #F5F0E8;
-    color: #3E3730;
+    background-color: var(--btn-light);
+    color: var(--bg-panel);
     font-size: 14px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -142,17 +185,21 @@ p#journal_label{
 }
 
 #save_journal_button:hover {
-  background-color: #E4D4C4;
+  background-color: var(--btn-hover);
+
 }
 #save_journal_button:active {
   background-color: #CBB8A3;
 }
 
+/* ENTRIES */
+
+
+
 #entries_sec {
     max-width: 960px;
     width: 90%;
     margin: 40px auto 0;
-   
     
 }
 
@@ -162,10 +209,11 @@ p#journal_label{
   border: 1px solid #D0C4B5;
   border-radius: 20px;
   font-size: 13px;
-  background-color: #FAF9F6;
+  background-color: var(--bg-body);
    outline: none;
     box-shadow: 0 0 5px #A89F94;
  margin-bottom: 10px;
+ color: var(--text-dark);
 }
 
 #categoryfilter {
@@ -174,7 +222,8 @@ p#journal_label{
   border: 1px solid #D0C4B5;
   border-radius: 20px;
   font-size: 13px;
-  background-color: #FAF9F6;
+  background-color: var(--bg-body);
+  color: var(--text-dark);
    outline: none;
     box-shadow: 0 0 5px #A89F94;
  margin-bottom: 10px;
@@ -185,20 +234,20 @@ p#journal_label{
     margin-bottom: 0;  /* Reset margin */
 }
 
+/* ENTRIES */
 
 #entries_container {
   max-width: 100%;
   margin: 2rem 0 4rem;
   padding: 0;
-  
 }
 
 .journal_entry {
    margin: 1rem 0 1.5rem 0;  /* tylko góra/dół, brak lewo/prawo */
   padding: 1.25rem 1.5rem;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--bg-card);
   border-radius: 12px;
-  border-left: 4px solid #3E3730;
+  border-left: 4px solid var(--bg-panel);
    box-shadow:
     0 10px 10px rgba(0, 0, 0, 0.12),
     0 2px 6px rgba(0, 0, 0, 0.06);
@@ -207,21 +256,23 @@ p#journal_label{
 
 .journal_entry_date {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #8a8175;
-  margin-top: -5px;
+  color: var(--date-light);
+  margin-top: -10px;
   
 }
 
 .journal_entry_content {
   margin: 0;
   line-height: 1.7;
-  font-size: 0.95rem;
-  color: #1A1A1A;
+  font-size: 1.05rem;
+  color: var(--text-main);
   white-space: pre-wrap; /* zachowuje entery z textarea */
+  letter-spacing: 0.05em;
+  
 
 }
 
@@ -235,16 +286,35 @@ p#journal_label{
   right: 14px;
   border: none;
   background: transparent;
-  color: #8a8175;
+  color: var(--date-light);
   font-size: 25px;
   cursor: pointer;
 }
-
 .journal_entry_delete:hover {
-  color: #3E3730;
-  
+  color: var(--bg-panel);
+  transition: color 0.3s;
+}
+.journal_entry_delete:not(:hover) {
+  transition: color 0.3s;
 }
 
+.journal_entry_edit {
+  position: absolute;
+  top: 10px;
+  right: 40px;
+  border: none;
+  background: transparent;
+  color: var(--date-light);
+  font-size: 18px;
+  cursor: pointer;
+}
+.journal_entry_edit:hover {
+  color: var(--bg-panel);
+  transition: color 0.3s;
+}
+.journal_entry_edit:not(:hover) {
+  transition: color 0.3s;
+}
 
 
 .journal_entry_title {
@@ -252,7 +322,7 @@ p#journal_label{
     margin-bottom: 3px;
     font-size: 22px;
     font-weight: 450;
-    color: #5c5248;
+    color: var(--text-dark);
     letter-spacing: 0.05em;
 }
 
@@ -263,11 +333,11 @@ p#journal_label{
   margin: 10px auto 120px;
 }
 
+
 .entry_detail_card {
-  
-  background: #FFFFFF;
+  background: var(--bg-card);
   border-radius: 12px;
-  border-left: 4px solid #3E3730;
+  border-left: 4px solid var(--bg-panel);
   box-shadow:
     0 18px 30px rgba(0, 0, 0, 0.12),
     0 4px 10px rgba(0, 0, 0, 0.06);
@@ -279,7 +349,7 @@ p#journal_label{
   font-size: 28px;
   margin-bottom: 8px;
   letter-spacing: 0.06em;
-  color: #5c5248;
+  color: var(--text-dark);
 }
 
 .entry_detail_card small {
@@ -287,21 +357,24 @@ p#journal_label{
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: #8a8175;
+  color: var(--date-light);
   margin-bottom: 24px;
 }
 
 .entry_detail_card p {
   font-size: 16px;
   line-height: 1.9;
-  color: #1A1A1A;
+  color: var(--text-main);
   white-space: pre-wrap;
+
 }
 
+
+/* DETAIL BTNS */
 #BackAllEntries {
   border: none;
-  background-color: #F5F0E8;
-  color: #3E3730;
+  background-color: var(--btn-light);
+  color:var(--bg-panel);
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -309,15 +382,49 @@ p#journal_label{
   border-radius: 999px;
   cursor: pointer;
   margin-bottom: 16px;
+  box-shadow: 2px 0px 10px rgba(99, 76, 70, 0.267);
 }
 
 #BackAllEntries:hover {
-  background-color: #E4D4C4;
+  background-color: var(--btn-hover);
+  transition: 0.2s;
+}
+#BackAllEntries:not(:hover) {
+  transition: 0.2s;
 }
 
+.detail-header-btn {
+  border: none;
+  background-color: var(--btn-light);
+  color: var(--bg-panel);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  margin-bottom: 16px;
+   box-shadow: 2px 0px 10px rgba(99, 76, 70, 0.267);
+   
+}
+.detail-header-btn:hover {
+  background-color: var(--btn-hover);
+  transition: 0.2s;
+}
+.detail-header-btn:not(:hover) {
+  transition: 0.2s;
+}
+
+
+
+
+
+/* CATEGORY BADGE */
+
+
 .category-badge {
-   background: linear-gradient(45deg, #cf8e5f, #51312E);
-    color: white;
+   background: var(--bg-panel);
+    color: var(--bg-body);
     padding: 4px 8px;
     border-radius: 12px;
     font-size: 0.85em;
@@ -327,24 +434,16 @@ p#journal_label{
     display: inline-block;
 }
 
+
+
+
+
 #readMode .category-badge {
     margin-top: -12px
 }
 
-.journal_entry_edit {
-  position: absolute;
-  top: 10px;
-  right: 40px;
-  border: none;
-  background: transparent;
-  color: #8a8175;
-  font-size: 18px;
-  cursor: pointer;
-}
 
-.journal_entry_edit:hover {
-  color: #24211d;
-}
+
 .title_category {
     display: flex;
     flex-direction: row;
@@ -352,56 +451,40 @@ p#journal_label{
     align-items: center;
     margin-bottom: 12px;
 }
-
-
-
 .filters_row {
     display: flex;
     justify-content: space-between;  /* Search LEWO, select PRAWO */
     align-items: center;
-    margin-bottom: 0px;
+    margin-bottom: -20px;
+    margin-top: 60px;
     gap: 12px;  /* Odstęp między */
     padding-bottom: 0px;
 }
-.detail-header-btn {
-  border: none;
-  background-color: #F5F0E8;
-  color: #3E3730;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  border-radius: 999px;
-  cursor: pointer;
-  margin-bottom: 16px;
-}
 
-.detail-header-btn:hover {
-  background-color: #E4D4C4;
-}
 
 .entry_detail_header {
     padding: 0px;
+    margin-bottom: 0px;
+    margin-top: -50px;
     border-bottom: none;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: left;
    
 }
 
-/* Edit Mode - minimalistyczny jak reszta app */
 
 
-.entry_detail_card {
-    background: #fdfdfd;
-    border-radius: 20px;
-}
+
+
+
 .title_category_detail {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;  /* Wyrównaj do góry */
     gap: 16px;
     margin-bottom: 0px;
+    color: var(--text-dark);
 }
 
 /* Tytuł w szczegółach - taka sama grubość jak lista */
@@ -410,6 +493,7 @@ p#journal_label{
     font-size: 28px;
     margin: 0 0 12px 0;
     line-height: 1.3;
+    color: var(--text-dark);
     
 }
 
@@ -417,6 +501,7 @@ p#journal_label{
 .detail_meta {
     display: block;
     margin-bottom: 0px;
+    
 }
 
 
@@ -427,7 +512,7 @@ p#journal_label{
 #editTitle {
     font-weight: 400;
     border: none;
-    background-color: #FAF9F6;
+    background-color: var(--bg-body);
     box-shadow: 0 0 5px #A89F94;
     text-align: center;
 }
@@ -437,47 +522,51 @@ p#journal_label{
     margin: 0;
     border: 0px solid #e9e7e1;
     box-shadow: 0 0 5px #A89F94;
-    background-color: #FAF9F6;
+    background-color: var(--bg-body);
     border-radius: 12px;
     padding: 16px 20px;
     font-size: 28px;
     font-weight: 400;
     margin-bottom: 16px;
     font-family: inherit;
-    color: #5c5248;
+    color: var(--text-dark);
     letter-spacing: 0.08em;
-    box-shadow: 1px 1px 10px #a89f9462;
-}
-
-#editCategory {
-    border: 1px solid #e9e7e1;
-    background-color: #FAF9F6;
-    border-radius: 12px;
-    padding: 12px 16px;
-    width: 180px;
-    background: #FAF9F6;
-    font-family: inherit;
-    font-size: 14px;
     box-shadow: 1px 1px 10px #a89f9462;
 }
 
 #editContent {
     width: 95%;
-    border: 1px solid #e1e5e9;
+    border: 1px solid var(--border-light);
     border-radius: 12px;
     padding: 20px;
     min-height: 250px;
     font-family: inherit;
     font-size: 16px;
     line-height: 1.7;
-    background-color: #FAF9F6;
+    background-color: var(--bg-body);
     resize: vertical;
     margin-bottom: 20px;
     box-shadow: 1px 1px 10px #a89f9462;
+    color: var(--text-dark);
 }
 
+#editCategory {
+    border: 1px solid #e9e7e1;
+    background-color: var(--bg-body);
+    border-radius: 12px;
+    padding: 12px 16px;
+    width: 180px;
+    background: var(--bg-body);
+    font-family: inherit;
+    font-size: 14px;
+    box-shadow: 1px 1px 10px #a89f9462;
+    color: var(--text-dark);
+}
+
+
+
 #editTitle:focus, #editCategory:focus, #editContent:focus {
-    background: white;
+    background: var(--focused-editor-bg);
     outline: none;
 }
 
@@ -489,44 +578,45 @@ p#journal_label{
     margin-bottom: 20px;
 }
 
+
+
 .save-edit-button, .cancel-edit-button {
     border: none;
     border-radius: 20px;
     padding: 11px 24px;
     font-weight: 400;
     cursor: pointer;
-    background: #fdfdfd;
     flex-shrink: 0;
     font-family: inherit;
     font-size: 14px;
-    cursor: pointer;
+    
     
 }
 
 .cancel-edit-button{
-  background-color: #E4D4C4;
-    color: #3E3730;
+  background-color: var(--btns-SaveAndCancel);
+    color: var(--bg-panel);
     box-shadow: 1px 5px 2px rgba(99, 76, 70, 0.495);
 }
 .save-edit-button {
-    background-color: #E4D4C4;
-    color: #3E3730;
+    background-color: var(--btns-SaveAndCancel);
+    color: var(--bg-panel);
     box-shadow: 1px 5px 2px rgba(99, 76, 70, 0.467);
     
 }
 
 .save-edit-button:hover {
     
-    background: #634c46;
-    color: white;
+    background: var(--btns-SaveAndCancel-hover);
+    color: var(--btns-SaveAndCancel-text-hover);
     transition: background-color 0.5s, color 0.5s;
     box-shadow: 3px 8px 2px rgba(99, 76, 70, 0.3);
     transition: all 0.5s;
 }
 
 .cancel-edit-button:hover {
-    background: #634c46;
-    color: white;
+    background: var(--btns-SaveAndCancel-hover);
+    color: var(--btns-SaveAndCancel-text-hover);
     transition: color 0.2s, color 0.2s;
     transition: background-color 0.2s, color 0.2s;
     box-shadow: 3px 8px 2px rgba(99, 76, 70, 0.3);
@@ -535,8 +625,8 @@ p#journal_label{
 
 .save-edit-button:not(:hover) {
     
-   background-color: #E4D4C4;
-    color: #3E3730;
+   background-color: var(--btns-SaveAndCancel);
+    color: var(--bg-panel);
     box-shadow: 1px 5px 2px rgba(99, 76, 70, 0.3);
     transition: all 0.5s;
 
@@ -544,12 +634,12 @@ p#journal_label{
 
 .cancel-edit-button:not(:hover) {
     
-   background-color: #E4D4C4;
-    color: #3E3730;
+   background-color: var(--btns-SaveAndCancel);
+    color: var(--bg-panel);
     box-shadow: 1px 5px 2px rgba(99, 76, 70, 0.3);
     transition: all 0.5s;
 
-}
+} 
 
 .title_category_after_edit {
  
@@ -558,4 +648,42 @@ p#journal_label{
     align-items: flex-start;  /* Wyrównaj do góry */
     gap: 16px;
     margin-bottom: 0px;
+}
+
+/* 08.01.2025 */
+
+#toggle {
+    width: 100%;
+    
+    top: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 auto;
+    
+}
+
+.theme-toggle {
+  border: none;
+  background: transparent;
+  color: var(--btn-SaveAndCancel);
+  padding: 6px 16px;
+  margin-top: 40px;
+  margin-right: 20px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: var(--btn-light);
+  box-shadow: 2px 0px 10px rgba(99, 76, 70, 0.267);
+
+  
+}
+.theme-toggle:hover {
+  background: var(--btn-hover);
+  transition: 0.2s;
+}
+.theme-toggle:not(:hover) {
+  transition: 0.2s;
 }

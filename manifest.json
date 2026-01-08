@@ -1,0 +1,23 @@
+{
+  "name": "Journalist",
+  "short_name": "Journalist",
+  "description": "Quiet log for pauses and notes along your pathway",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF9F6",
+  "theme_color": "#3E3730",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+
+

@@ -161,4 +161,10 @@ const urlsToCache = [
 // Usunięty problematyczny bypass localhost dla CSS
 // Network First strategy z cache fallback
 
+02.02.2026
 
+
+✅ Pełne media queries `@media (max-width: 600px)` – apka idealna na telefonie
+Zero poziomego scrolla (`overflow-x: hidden`, `100vw`)
+Kompaktowy nagłówek, wygodne inputy, responsywne filtry
+Detail view i edytor zoptymalizowane pod palec

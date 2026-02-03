@@ -128,3 +128,37 @@ Status: Production-ready (private use) - stabilna, intuicyjna, profesjonalna. Go
 -Przycisk "Dark/Light" z dynamicznym tekstem
 -Smooth transitions między motywami
 
+📱 PWA - 100% GOTOWE ✅
+
+Nowa struktura:
+
+Folder Fonts/ z 11 plikami Lora (TTF)
+
+manifest.json + ikony (192/512px)
+
+sw.js z pełnym cache
+
+Problem z fontami: Google Fonts nie działały offline → pobrałem Lora lokalnie, stworzyłem lora.css z @font-face (absolutne ścieżki /Fonts/*.ttf)
+
+Rezultat: Zero błędów 404 offline, instalacja Chrome/Edge, dark/light toggle działa perfekcyjnie. Beżowo-grafitowa paleta zachowana w każdych warunkach.
+
+
+12.01.2026.
+
+jednak PWA nie było gotowe w 100%
+Od kilku dni walczyłem z problemem:
+✅ VSCode Live Server (WiFi) + Command+S na lora.css → Font OK
+❌ VSCode Live Server + Command+S na index.html → Font spada na default  
+❌ PWA zainstalowane (offline) → Font nie działa
+
+// KLUCZOWE ZMIANY:
+const urlsToCache = [
+  'lora.css',  - TAK BYŁO I BYŁO ZŁE
+  '/fonts/lora.css - tak jest i JEST DOBRZE
+  // ...
+];
+
+// Usunięty problematyczny bypass localhost dla CSS
+// Network First strategy z cache fallback
+
+

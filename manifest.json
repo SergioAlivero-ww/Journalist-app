@@ -1,11 +1,12 @@
 {
   "name": "Journalist",
   "short_name": "Journalist",
-  "description": "Quiet log for pauses and notes along your pathway",
-  "start_url": "/",
+  "description": "Quiet log for pauses and notes along your path",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#FAF9F6",
-  "theme_color": "#3E3730",
+  "background_color": "#F5F5F0",
+  "theme_color": "#8B4513",
   "icons": [
     {
       "src": "icon-192.png",
@@ -13,11 +14,9 @@
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "icon-512.png", 
       "sizes": "512x512",
       "type": "image/png"
     }
   ]
 }
-
-

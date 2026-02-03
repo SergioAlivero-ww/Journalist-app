@@ -132,12 +132,12 @@ h1, h2, h3, h4, h5, h6, p {
 p#journal_label{
     color: var(--bg-body);
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: 0.10em;
     margin-bottom: -5px;
     margin-top: -15px;
     text-align: center;
-    font-family: "Lora";
+    font-family: 'Lora'
 }
 #entry_category {
     padding: 10px 12px;
@@ -686,4 +686,88 @@ p#journal_label{
 }
 .theme-toggle:not(:hover) {
   transition: 0.2s;
+}
+
+/* MEDIA */
+
+@media (max-width: 600px) {
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    overflow-x: hidden;
+    margin: 0;
+    padding-bottom: 20px;
+  }
+
+  .page {
+    width: 100vw;
+    max-width: 100vw;
+    padding: 0 6px 30px;
+    margin: 0;
+  }
+
+  #headersec {
+    padding: 20px 0 10px;
+  }
+
+  #h1header {
+    font-size: 28px !important;
+    letter-spacing: 2px;
+  }
+
+  #pheader {
+    font-size: 14px;
+    padding: 0 4px;
+  }
+
+  #journal {
+    max-width: 100vw;
+    width: 100%;
+    padding: 16px 8px;
+    margin: 0;
+  }
+
+  #entrytitle {
+    font-size: 18px;
+    padding: 8px 12px;
+  }
+
+  #journaleditor {
+    font-size: 16px;
+    padding: 12px 16px;
+    min-height: 160px;
+  }
+
+  .filtersrow {
+    flex-direction: column;
+    gap: 8px;
+    margin: 20px 0;
+  }
+
+  #searchinput,
+  #categoryfilter {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  #entriessec {
+    margin-bottom: 20px;
+  }
+
+  .journalentry {
+    padding: 14px 12px;
+    margin: 8px 0;
+  }
+
+  .entrydetail {
+    margin: 10px 0 40px;
+    padding: 0 4px;
+  }
+
+  .entrydetailcard {
+    padding: 20px 12px;
+  }
 }

@@ -35,6 +35,33 @@ let currentlyEditingId = null;
 
 
 
+/* tworzymy link wpisu który wybieramy */
+function setEntryIdToURL(id) {
+  const url = new URL(window.location.href);
+  url.searchParams.set("entry", id);
+  window.history.pushState({}, "", url);
+}
+
+/* czyścimy pole od linku wpisu */
+function clearEntryIdFromURL(){
+    const url = new URL(window.location.href);
+    url.searchParams.delete("entry");
+    window.history.pushState({}, "", url);
+}
+
+/* Funkcja która pozwoli aplikacji otwierać sie z linku, otwierać ten wpis do którego prowadzi link */
+function getEntryIdFromURL () {
+    const url = new URL(window.location.href);
+    return url.searchParams.get("entry");
+}
+
+
+/* Funkcja kopiowania */
+function copyCurrentURLToClipboard() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
+}
+
 
 function saveEntries(){
     localStorage.setItem('journalEntries', JSON.stringify(entries));
@@ -200,8 +227,13 @@ function filterEntries(categoryFilter, searchTerm) {
 
 
 function openEntry(id) {
+  
+
     const entry = entries.find(e => e.id === id);
     if (!entry) return;
+
+    
+    setEntryIdToURL(id);
 
       const date = new Date(entry.createdAt).toLocaleString('pl-PL', {
         year: 'numeric',
@@ -214,7 +246,10 @@ function openEntry(id) {
     entryDetail.innerHTML = `
     <div class="entry_detail_header">
         <button id="BackAllEntries" class="detail-header-btn">← All entries</button>
+        <div class="detail-header-right">
         <button id="editFromDetail" class="detail-header-btn">✎ Edit</button>
+        <button id="shareEntry" class="detail-header-btn">⤴ Share</button>
+        </div>
     </div>
      <article class="entry_detail_card" id="detailCard">
         <div id="readMode">
@@ -248,7 +283,17 @@ function openEntry(id) {
     entriesSec.style.display = 'none';
     entryDetail.style.display = 'block';
 
-        document.getElementById('BackAllEntries').addEventListener('click', showListView);
+        document.getElementById('BackAllEntries')
+  .addEventListener('click', () => {
+    clearEntryIdFromURL();
+    showListView();
+  });
+
+  document.getElementById('shareEntry').addEventListener('click', () => {
+  copyCurrentURLToClipboard();
+  alert('Link skopiowany do schowka');
+});
+
         document.getElementById('editFromDetail').addEventListener('click', function() {
         document.getElementById('readMode').style.display = 'none';
         document.getElementById('editMode').style.display = 'block';
@@ -267,6 +312,8 @@ function openEntry(id) {
         const date = new Date(updatedEntry.createdAt).toLocaleString('pl-PL', {
         year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
     });
+    
+
 
       document.getElementById('readMode').innerHTML = `
         <div class="title_category_after_edit">
@@ -289,6 +336,7 @@ function openEntry(id) {
         document.getElementById('editMode').style.display = 'none';
     });
     document.getElementById('cancelEditDetail').addEventListener('click', showListView);
+    
 }
 
 function onFilterChange() {
@@ -357,9 +405,15 @@ if (themeToggle) {
 
 renderEntries();
 
-if ('serviceWorker' in navigator) {
+const entryIdFromURL = getEntryIdFromURL();
+if (entryIdFromURL) {
+  openEntry(entryIdFromURL);
+}
+
+
+/* if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js')
     .then(reg => console.log('SW registered!', reg))
     .catch(err => console.log('SW error', err));
-}
+} */
 

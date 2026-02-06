@@ -168,3 +168,26 @@ const urlsToCache = [
 Zero poziomego scrolla (`overflow-x: hidden`, `100vw`)
 Kompaktowy nagłówek, wygodne inputy, responsywne filtry
 Detail view i edytor zoptymalizowane pod palec
+
+06.02
+
+Dodno przycisk share z detail-entry-view i jego funcjonalność.
+Po kliknięciu kopiuje link, ten link mozna swobodnie wysłać i on otwiera właściwy wpis.
+
+Stan aplikacji jest synchronizowany z URL (bez przeładowania strony) po przez pushState.
+
+Najblizsze plany:
+
+Widok prywatny vs publiczny
+Publiczny: tylko do odczytu (read-only)
+Prywatny: pełny dostęp do dziennika
+
+Integracja z Firebase
+Logowanie (Google + email/hasło)
+Baza danych Firestore
+
+Publiczne linki działające u każdego użytkownika
+
+Dopasowanie aplikacji do urządzeń mobilnych
+
+Stany ładowania i obsługa błędów

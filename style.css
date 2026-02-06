@@ -407,6 +407,11 @@ p#journal_label{
    box-shadow: 2px 0px 10px rgba(99, 76, 70, 0.267);
    
 }
+
+.detail-header-right {
+    display: flex;
+    gap: 12px;
+}
 .detail-header-btn:hover {
   background-color: var(--btn-hover);
   transition: 0.2s;

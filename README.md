@@ -191,3 +191,24 @@ Publiczne linki działające u każdego użytkownika
 Dopasowanie aplikacji do urządzeń mobilnych
 
 Stany ładowania i obsługa błędów
+
+01.03.
+
+## System udostępniania wpisów (Public View)
+
+Dodano możliwość udostępniania pojedynczego wpisu za pomocą linku publicznego.
+
+### Jak to działa
+
+- Kliknięcie „Share” zapisuje wpis w kolekcji `publicEntries` w Firestore.
+- Generowany link ma format: `?share=ID_WPISU`
+- Funkcja `boot()` wykrywa parametr `share` w URL i otwiera wpis w trybie publicznym.
+- Tryb publiczny nie wymaga logowania.
+- W trybie publicznym ukryte są przyciski edycji oraz powrotu do listy.
+- `initAuth()` nie nadpisuje widoku publicznego.
+- Usunięto globalne wywołanie `showAuthView()`, które blokowało otwieranie linków publicznych.
+
+### Uwagi techniczne
+
+- Przycisk „Share” jest generowany dynamicznie w `openEntry()`, dlatego listener jest podpinany po renderowaniu `innerHTML`.
+- Kopiowanie linku wykorzystuje `navigator.clipboard`, a w Safari działa fallback (`execCommand` / prompt).

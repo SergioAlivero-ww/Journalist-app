@@ -8,11 +8,13 @@
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#FAF9F6">
-    
+    <link rel="icon" href="data:,">
 </head>
 <body>
     <div class="page">
+
         <div id="toggle">
+            <button id="logoutBtn" style="display:none;">Wyloguj</button>
             <button id="themeToggle" class="theme-toggle" aria-label="Przełącz motyw">
                 Dark
             </button>
@@ -22,7 +24,18 @@
             <h1 id="h1header">Journalist</h1>
             <p id="pheader"> quiet log for pauses and notes along your pathway</p>
         
+        
     </header>
+
+    <section id="authSec" style="display:none;">
+        
+        <div class="auth-card">
+            
+            <p class="auth-subtitle">Login to use Journalist</p>
+            <button id="googleLoginBtn" class="auth-btn">Login with google</button>
+            <p id="authError" class="auth-error" style="display:none;"></p>
+        </div>
+    </section>
     <main id="main_sec">
             <div id="journal">
                 <p id="journal_label">What is on your mind?</p>
@@ -50,5 +63,5 @@
 
     </section>
 </body>
-<script src="index.js"></script>
+<script type="module" src="index.js"></script>
 </html>

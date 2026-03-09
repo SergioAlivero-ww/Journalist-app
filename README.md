@@ -212,3 +212,70 @@ Dodano możliwość udostępniania pojedynczego wpisu za pomocą linku publiczne
 
 - Przycisk „Share” jest generowany dynamicznie w `openEntry()`, dlatego listener jest podpinany po renderowaniu `innerHTML`.
 - Kopiowanie linku wykorzystuje `navigator.clipboard`, a w Safari działa fallback (`execCommand` / prompt).
+
+
+02.03 – 07.03
+
+## Refaktor struktury aplikacji
+
+W ostatnich dniach przeprowadzono większe porządkowanie kodu oraz architektury pliku `index.js`. 
+Celem było uproszczenie logiki aplikacji oraz zwiększenie czytelności projektu.
+
+### Najważniejsze zmiany
+
+- uporządkowano strukturę pliku JavaScript na logiczne sekcje
+- oddzielono warstwy:
+  - state aplikacji
+  - logikę danych (Firestore)
+  - logikę UI
+  - funkcje pomocnicze
+  - obsługę zdarzeń
+- usunięto nieużywane funkcje oraz zmienne
+- usunięto stare implementacje zapisu wpisów
+- uproszczono przepływ danych między Firestore → stan aplikacji → UI
+
+### Aktualna struktura pliku `index.js`
+
+Kod aplikacji został podzielony na sekcje:
+IMPORTS
+DOM REFERENCES
+STATE
+THEME
+TEXTAREA AUTO RESIZE
+URL HELPERS
+CLIPBOARD
+ENTRY HELPERS
+DATA LAYER
+UI VIEWS
+RENDERING
+FILTERS
+ENTRY LOGIC
+EVENTS
+AUTH
+BOOT
+
+
+Dzięki temu łatwiej jest zrozumieć odpowiedzialność poszczególnych części aplikacji.
+
+### Aktualny przepływ danych
+
+Aplikacja działa w oparciu o prosty model stanu:
+
+Firestore → entries (stan aplikacji) → UI
+
+
+Proces ładowania danych wygląda następująco:
+
+
+boot()
+↓
+initAuth()
+↓
+loadEntriesFromFirestore()
+↓
+entries (state)
+↓
+refreshListUI()
+↓
+renderEntries()
+

@@ -279,3 +279,7 @@ refreshListUI()
 ↓
 renderEntries()
 
+
+09.03.2026.
+
+Dodano MAP.md - mapa aplikacji.

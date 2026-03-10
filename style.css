@@ -589,7 +589,7 @@ p#journal_label{
 .save-edit-button, .cancel-edit-button {
     border: none;
     border-radius: 20px;
-    padding: 11px 24px;
+    padding: 8px 24px;
     font-weight: 400;
     cursor: pointer;
     flex-shrink: 0;
@@ -615,18 +615,18 @@ p#journal_label{
     
     background: var(--btns-SaveAndCancel-hover);
     color: var(--btns-SaveAndCancel-text-hover);
-    transition: background-color 0.5s, color 0.5s;
+    transition: background-color 0.3s, color 0.3s;
     box-shadow: 3px 8px 2px rgba(99, 76, 70, 0.3);
-    transition: all 0.5s;
+    transition: all 0.3s;
 }
 
 .cancel-edit-button:hover {
     background: var(--btns-SaveAndCancel-hover);
     color: var(--btns-SaveAndCancel-text-hover);
-    transition: color 0.2s, color 0.2s;
-    transition: background-color 0.2s, color 0.2s;
+    transition: color 0.3s, color 0.3s;
+    
     box-shadow: 3px 8px 2px rgba(99, 76, 70, 0.3);
-    transition: all 0.5s;
+    transition: all 0.3s;
 }
 
 .save-edit-button:not(:hover) {
@@ -634,7 +634,7 @@ p#journal_label{
    background-color: var(--btns-SaveAndCancel);
     color: var(--bg-panel);
     box-shadow: 1px 5px 2px rgba(99, 76, 70, 0.3);
-    transition: all 0.5s;
+    transition: all 0.3s;
 
 }
 
@@ -643,7 +643,7 @@ p#journal_label{
    background-color: var(--btns-SaveAndCancel);
     color: var(--bg-panel);
     box-shadow: 1px 5px 2px rgba(99, 76, 70, 0.3);
-    transition: all 0.5s;
+    transition: all 0.3s;
 
 } 
 
@@ -861,4 +861,41 @@ p#journal_label{
   .auth-btn {
     width: 100%;
   }
+}
+
+
+/* ===================
+      LINK COPIED 
+      =================*/
+.toast {
+  position: fixed;
+
+  left: 50% !important;
+  right: auto !important;
+
+  top: 80px;
+
+  transform: translateX(-50%) translateY(-10px);
+
+  padding: 14px 24px;
+  border-radius: 999px;
+
+  background: var(--bg-panel);
+  color: var(--bg-body);
+
+  font-size: 16px;
+  letter-spacing: 0.04em;
+
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 0.9;
+  transform: translateX(-50%) translateY(0);
 }

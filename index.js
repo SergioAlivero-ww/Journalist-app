@@ -125,33 +125,66 @@ function isPublicView() {
 ================================ */
 
 async function copyText(text) {
-  // 1) Clipboard API (czasem działa)
+  // 1) nowoczesne kopiowanie
   try {
     await navigator.clipboard.writeText(text);
     return true;
-  } catch (_) {}
+  } catch (err) {
+    console.warn("Clipboard API failed, trying fallback...", err);
+  }
 
-  // 2) Fallback: textarea + execCommand('copy') (często działa w Safari)
+  // 2) fallback dla Safari / starszych środowisk
   try {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    ta.setAttribute("readonly", "");
-    ta.style.position = "fixed";
-    ta.style.top = "-9999px";
-    document.body.appendChild(ta);
-    ta.select();
-    ta.setSelectionRange(0, ta.value.length);
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
 
-    const ok = document.execCommand("copy");
-    document.body.removeChild(ta);
+    // ważne: musi być w DOM
+    document.body.appendChild(textArea);
 
-    if (ok) return true;
-  } catch (_) {}
+    // styl ukrywający, ale nadal kopiowalny
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    textArea.style.top = "0";
+    textArea.setAttribute("readonly", "");
 
-  // 3) Ostatecznie prompt (zawsze działa)
-  window.prompt("Skopiuj link:", text);
-  return false;
-};
+    textArea.focus();
+    textArea.select();
+    textArea.setSelectionRange(0, textArea.value.length);
+
+    const successful = document.execCommand("copy");
+
+    document.body.removeChild(textArea);
+
+    return successful;
+  } catch (err) {
+    console.error("Fallback copy failed:", err);
+    return false;
+  }
+}
+
+
+/* ================================
+   FEEDBACK / TOAST
+================================ */
+
+
+function showToast(message) {
+  console.log("SHOW TOAST DZIAŁA:", message);
+
+  const toast = document.getElementById("toast");
+  if (!toast) {
+    console.log("BRAK #toast w HTML");
+    return;
+  }
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2000);
+}
+
 
 /* ================================
    ENTRY HELPERS
@@ -424,8 +457,8 @@ function openEntry(id) {
         <div class="edit_category_row">
           <input type="text" id="editCategory" value="${entry.category}">
           <div class="save_cansel_buttons">
-            <button id="saveEditDetail">Save</button>
-            <button id="cancelEditDetail">Cancel</button>
+            <button id="saveEditDetail" class="save-edit-button">Save</button>
+            <button id="cancelEditDetail" class="cancel-edit-button">Cancel</button>
           </div>
         </div>
       </div>
@@ -485,22 +518,27 @@ if (!ok) return;
 openEntry(id);
 });
   // SHARE
-  document.getElementById('shareEntry')?.addEventListener('click', async () => {
-    if (!currentUser) return alert("Zaloguj się.");
+document.getElementById('shareEntry')?.addEventListener('click', async () => {
+  if (!currentUser) return alert("Zaloguj się.");
 
-    try {
-      await publishEntryPublic(entry);
+  const url = new URL(window.location.origin + window.location.pathname);
+  url.searchParams.set("share", id);
 
-      const url = new URL(window.location.origin + window.location.pathname);
-      url.searchParams.set("share", id);
+  const copied = await copyText(url.toString());
 
-      await copyText(url.toString());
-      alert("Link gotowy");
-    } catch (e) {
-      console.error(e);
-      alert("Błąd udostępniania.");
-    }
-  });
+  if (copied) {
+    showToast("Link copied");
+  } else {
+    showToast("Copy failed");
+  }
+
+  try {
+    await publishEntryPublic(entry);
+  } catch (e) {
+    console.error("Publish error:", e);
+    showToast("Sharing failed");
+  }
+});
 
   if (isPublicView()) {
     document.getElementById('BackAllEntries')?.remove();

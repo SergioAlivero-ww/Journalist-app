@@ -283,3 +283,21 @@ renderEntries()
 09.03.2026.
 
 Dodano MAP.md - mapa aplikacji.
+
+
+10.03.2026.
+
+#### 1. Przyciski Save / Cancel
+- dopracowano styl przycisków w edycji wpisu
+- poprawiono hover state
+- poprawiono kontrast w trybie jasnym i ciemnym
+
+#### 2. Ulepszone udostępnianie wpisu (Share)
+- kliknięcie przycisku **Share** automatycznie kopiuje link do schowka
+- dodano wizualny komunikat (toast) informujący użytkownika, że link został skopiowany
+- usunięto wcześniejszy prompt wymagający ręcznego kopiowania linku
+
+#### 3. Obsługa Clipboard API
+- zastosowano nowoczesne `navigator.clipboard.writeText`
+- dodano fallback dla przeglądarek blokujących Clipboard API
+- poprawiono kolejność operacji, aby kopiowanie następowało bezpośrednio po akcji użytkownika (wymóg przeglądarek)

@@ -36,6 +36,9 @@ const authSec = document.getElementById('authSec');
 const googleLoginBtn = document.getElementById("googleLoginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const authError = document.getElementById("authError");
+const deleteModal = document.getElementById("deleteModal");
+const deleteConfirmBtn = document.getElementById("deleteConfirm");
+const deleteCancelBtn = document.getElementById("deleteCancel");
 
 
 /* ================================
@@ -46,6 +49,7 @@ let currentUser = null;
 let entries = [];
 let currentlyEditingId = null;
 let currentOpenEntryId = null;  /* ?? */
+let entryToDelete = null;
 
 /* ================================
    THEME
@@ -275,9 +279,14 @@ function renderEntries(list = entries){
     showEntries.innerHTML = "";
 
     if (list.length === 0) {
-        showEntries.innerHTML = '<p style="color: #4a4a4a; font-style: italic;">No entries yet...</p>';
-        return;
-    }
+  showEntries.innerHTML = `
+    <div class="empty_state">
+      <h3 class="empty_state_title">No entries yet</h3>
+      <p class="empty_state_text">Your first journal entry will appear here.</p>
+    </div>
+  `;
+  return;
+}
     list.forEach(entry => {
     const wrapper = document.createElement('article');
     wrapper.classList.add('journal_entry');
@@ -308,17 +317,14 @@ function renderEntries(list = entries){
     const deleteButton = document.createElement('button');
     deleteButton.textContent = '×';
     deleteButton.classList.add('journal_entry_delete');
-    deleteButton.addEventListener('click', async (event) => {
+
+    deleteButton.addEventListener('click', (event) => {
   event.stopPropagation();
+
   if (!currentUser) return alert("Zaloguj się.");
 
-  try {
-    await deleteEntry(currentUser.uid, entry.id);
-    await refreshEntries();
-  } catch (e) {
-    console.error("FIRESTORE DELETE ERROR:", e);
-    alert("Błąd usuwania w Firestore.");
-  }
+  entryToDelete = entry.id;
+  deleteModal.classList.remove("hidden");
 });
 
     wrapper.appendChild(deleteButton);
@@ -621,6 +627,39 @@ if (!ok) return;
 
 categorySelect.addEventListener('change', onFilterChange);
 searchInput.addEventListener('input', onFilterChange);
+
+deleteCancelBtn?.addEventListener("click", () => {
+  deleteModal.classList.add("hidden");
+  entryToDelete = null;
+});
+
+deleteConfirmBtn?.addEventListener("click", async () => {
+  if (!entryToDelete) return;
+
+  if (!currentUser) {
+    deleteModal.classList.add("hidden");
+    entryToDelete = null;
+    return alert("Zaloguj się.");
+  }
+
+  try {
+    await deleteEntry(currentUser.uid, entryToDelete);
+    await refreshEntries();
+  } catch (e) {
+    console.error("FIRESTORE DELETE ERROR:", e);
+    alert("Błąd usuwania w Firestore.");
+  }
+
+  deleteModal.classList.add("hidden");
+  entryToDelete = null;
+});
+
+deleteModal?.addEventListener("click", (event) => {
+  if (event.target === deleteModal) {
+    deleteModal.classList.add("hidden");
+    entryToDelete = null;
+  }
+});
 
 /* ================================
    AUTH

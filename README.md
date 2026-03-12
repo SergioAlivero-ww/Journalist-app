@@ -301,3 +301,17 @@ Dodano MAP.md - mapa aplikacji.
 - zastosowano nowoczesne `navigator.clipboard.writeText`
 - dodano fallback dla przeglądarek blokujących Clipboard API
 - poprawiono kolejność operacji, aby kopiowanie następowało bezpośrednio po akcji użytkownika (wymóg przeglądarek)
+
+
+12.03.2026
+
+## Ostatnie zmiany (12.03.2026)
+
+Wprowadzono kilka ulepszeń związanych z UX i bezpieczeństwem działania aplikacji:
+
+- Dodano **custom modal potwierdzenia usunięcia wpisu** zamiast systemowego `window.confirm()`.
+- Modal został w pełni **ostylowany i zintegrowany z interfejsem aplikacji**.
+- Dodano możliwość **anulowania operacji usunięcia wpisu**.
+- Dodano **empty state** dla listy wpisów, który pojawia się, gdy użytkownik nie ma jeszcze żadnych notatek.
+
+Zmiany te poprawiają doświadczenie użytkownika oraz przygotowują aplikację do dalszego rozwoju.

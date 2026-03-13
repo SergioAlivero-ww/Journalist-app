@@ -39,7 +39,7 @@ const authError = document.getElementById("authError");
 const deleteModal = document.getElementById("deleteModal");
 const deleteConfirmBtn = document.getElementById("deleteConfirm");
 const deleteCancelBtn = document.getElementById("deleteCancel");
-
+const categoryDropdown = document.getElementById("category_dropdown");
 
 /* ================================
    STATE
@@ -211,6 +211,93 @@ function createTeaser(text, maxLength) {
   return text.slice(0, maxLength) + '...';
 };
 
+function getUniqueCategories() {
+  return [...new Set(
+    entries
+      .map(entry => entry.category?.trim())
+      .filter(Boolean)
+  )];
+}
+
+function closeCategoryDropdown() {
+  categoryDropdown.classList.add("hidden");
+  categoryDropdown.innerHTML = "";
+}
+
+function renderCategoryDropdown(filterText = "") {
+  if (!categoryDropdown) return;
+
+  const normalized = filterText.trim().toLowerCase();
+
+  const categories = getUniqueCategories().filter(category =>
+    category.toLowerCase().includes(normalized)
+  );
+
+  categoryDropdown.innerHTML = "";
+
+  if (categories.length === 0) {
+    closeCategoryDropdown();
+    return;
+  }
+
+  categories.forEach(category => {
+    const option = document.createElement("div");
+    option.classList.add("category_option");
+    option.textContent = category;
+
+    option.addEventListener("click", () => {
+      categoryInput.value = category;
+      closeCategoryDropdown();
+      categoryInput.focus();
+    });
+
+    categoryDropdown.appendChild(option);
+  });
+
+  categoryDropdown.classList.remove("hidden");
+}
+
+
+/* ================================
+   DRAFT
+================================ */
+
+/* ================================
+   DRAFT
+================================ */
+
+const DRAFT_KEY = "journalist_draft";
+
+function saveDraft() {
+  const draft = {
+    title: journalTitle.value.trim(),
+    category: categoryInput.value.trim(),
+    content: journal.value
+  };
+
+  localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+}
+
+function loadDraft() {
+  const rawDraft = localStorage.getItem(DRAFT_KEY);
+  if (!rawDraft) return;
+
+  try {
+    const draft = JSON.parse(rawDraft);
+
+    journalTitle.value = draft.title || "";
+    categoryInput.value = draft.category || "";
+    journal.value = draft.content || "";
+
+    autoResize();
+  } catch (error) {
+    console.error("DRAFT LOAD ERROR:", error);
+  }
+}
+
+function clearDraft() {
+  localStorage.removeItem(DRAFT_KEY);
+}
 
 /* ================================
    DATA LAYER
@@ -617,6 +704,8 @@ saveButton.addEventListener('click', async () => {
   }
   const ok = await persistEntry(entryToPersist);
 if (!ok) return;
+
+  clearDraft();
   // czyścimy pola TYLKO po udanym zapisie
   categoryEl.value = '';
   journal.value = "";
@@ -660,6 +749,30 @@ deleteModal?.addEventListener("click", (event) => {
     entryToDelete = null;
   }
 });
+
+categoryInput.addEventListener("focus", () => {
+  renderCategoryDropdown(categoryInput.value);
+});
+
+categoryInput.addEventListener("input", () => {
+  renderCategoryDropdown(categoryInput.value);
+});
+
+document.addEventListener("click", (event) => {
+  const clickedInside =
+    event.target === categoryInput ||
+    categoryDropdown.contains(event.target);
+
+  if (!clickedInside) {
+    closeCategoryDropdown();
+  }
+});
+
+
+journalTitle.addEventListener("input", saveDraft);
+categoryInput.addEventListener("input", saveDraft);
+journal.addEventListener("input", saveDraft);
+
 
 /* ================================
    AUTH
@@ -723,6 +836,7 @@ async function boot() {
   }
   // 2) NORMAL VIEW
   showAuthView();
+  loadDraft();
 }
 boot();
 

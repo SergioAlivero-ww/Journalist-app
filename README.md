@@ -315,3 +315,18 @@ Wprowadzono kilka ulepszeń związanych z UX i bezpieczeństwem działania aplik
 - Dodano **empty state** dla listy wpisów, który pojawia się, gdy użytkownik nie ma jeszcze żadnych notatek.
 
 Zmiany te poprawiają doświadczenie użytkownika oraz przygotowują aplikację do dalszego rozwoju.
+
+## 13.03.2026
+
+### Autosave Draft
+- Dodano automatyczny zapis szkicu wpisu w `localStorage`
+- Draft zapisuje się podczas pisania w polach: title, category, content
+- Po odświeżeniu strony treść szkicu zostaje przywrócona
+- Po zapisaniu wpisu (`Save Entry`) draft jest automatycznie usuwany
+
+### Category Dropdown
+- Zastąpiono natywny `datalist` własnym dropdownem kategorii
+- Kategorie są pobierane z istniejących wpisów
+- Dropdown filtruje kategorie podczas wpisywania
+- Kliknięcie kategorii uzupełnia pole `category`
+- Dropdown zamyka się po kliknięciu poza nim

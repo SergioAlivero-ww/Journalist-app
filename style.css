@@ -999,3 +999,52 @@ p#journal_label{
   line-height: 1.7;
   color: var(--text-muted);
 }
+
+/* ===================
+DROPDOWN CATEGORY
+===================== */
+
+.category_input_wrap {
+  position: relative;
+  width: 100%;
+}
+
+.category_dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+  padding: 8px;
+  z-index: 200;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.category_dropdown.hidden {
+  display: none;
+}
+
+.category_option {
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--text-main);
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.category_option:hover {
+  background: var(--btn-light);
+}
+
+.category_option:active {
+  transform: scale(0.99);
+}
+
+#entry_category {
+  width: 100%;
+  box-sizing: border-box;
+}

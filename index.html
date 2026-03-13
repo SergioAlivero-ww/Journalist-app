@@ -39,7 +39,15 @@
     <main id="main_sec">
             <div id="journal">
                 <p id="journal_label">What is on your mind?</p>
-                <input id="entry_category" type="text" placeholder="Category (np. Nauka, Praca)">
+                <div class="category_input_wrap">
+                <input
+                    id="entry_category"
+                    type="text"
+                    placeholder="Category (np. Nauka, Praca)"
+                    autocomplete="off">
+                <div id="category_dropdown" class="category_dropdown hidden">
+                </div>
+                </div>
                 <input id="entry_title" type="text" placeholder="Entry Title">
                 <textarea id="journal_editor" placeholder="Write your journal entry here..."></textarea>
                 <button id="save_journal_button">Save Entry</button>  

@@ -1,4 +1,6 @@
 
+
+
 /* ================================
    IMPORTS
 ================================ */
@@ -6,6 +8,7 @@ import
 { 
     initAuth, 
     loginWithGoogle, 
+    handleRedirectLoginResult,
     logout, 
     saveEntry, 
     loadEntriesFromFirestore, 
@@ -784,33 +787,36 @@ initAuth(async (user) => {
 
   console.log("AUTH STATE:", currentUser?.email || "LOGGED OUT");
 
-  // 🔥 JEŚLI JEST SHARE LINK — NIC NIE DOTYKAJ
   if (getShareIdFromURL()) {
     return;
   }
 
   if (user) {
-  authSec.style.display = "none";
-  logoutBtn.style.display = "inline-block";
+    googleLoginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    authError.style.display = "none";
 
-  try {
-    entries = await loadEntriesFromFirestore(user.uid);
-  } catch (e) {
-    console.error("LOAD ENTRIES ERROR:", e);
-    entries = [];
+    try {
+      entries = await loadEntriesFromFirestore(user.uid);
+    } catch (e) {
+      console.error("LOAD ENTRIES ERROR:", e);
+      entries = [];
+    }
+
+    showAppView();
+    refreshListUI();
+    return;
   }
 
-  showListView(); // jedyny render listy
-   refreshListUI();
-} else {
-  authSec.style.display = "block";
   googleLoginBtn.style.display = "inline-block";
   logoutBtn.style.display = "none";
 
   showAuthView();
   entries = [];
   renderEntries(entries);
-}});
+});
+ 
+
 
 
 /* ================================
@@ -818,24 +824,31 @@ initAuth(async (user) => {
 ================================ */
 
 async function boot() {
-    console.log("BOOT shareId:", getShareIdFromURL(), "href:", window.location.href);
+  try {
+    await handleRedirectLoginResult();
+  } catch (err) {
+    console.error("REDIRECT LOGIN ERROR:", err);
+    authError.textContent = "Nie udało się zalogować.";
+    authError.style.display = "block";
+  }
+
+  console.log("BOOT shareId:", getShareIdFromURL(), "href:", window.location.href);
   const shareId = getShareIdFromURL();
 
-  // 1) PUBLIC VIEW: nie wymaga loginu
   if (shareId) {
     const shared = await loadSharedEntry(shareId);
-    
+
     if (!shared) {
       authError.textContent = "Nie znaleziono wpisu lub link wygasł.";
       authError.style.display = "block";
       return;
     }
+
     entries = [shared];
     openEntry(shared.id);
     return;
   }
-  // 2) NORMAL VIEW
-  showAuthView();
+
   loadDraft();
 }
 boot();

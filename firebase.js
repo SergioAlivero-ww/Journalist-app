@@ -4,6 +4,8 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
@@ -23,7 +25,7 @@ import {
 
 const firebaseConfig = {
   apiKey: "AIzaSyCX7kie8WqPzfh2IYbfnb34_9fxTmjIXbw",
-  authDomain: "journalist-e3348.firebaseapp.com",
+  authDomain: "journalist-e3348.web.app",
   projectId: "journalist-e3348",
   storageBucket: "journalist-e3348.firebasestorage.app",
   messagingSenderId: "485272578962",
@@ -40,8 +42,20 @@ export function initAuth(callback) {
   return onAuthStateChanged(auth, callback);
 }
 
+function isMobileDevice() {
+  return window.matchMedia("(max-width: 768px)").matches;
+}
+
 export async function loginWithGoogle() {
+  if (isMobileDevice()) {
+    return signInWithRedirect(auth, provider);
+  }
+
   return signInWithPopup(auth, provider);
+}
+
+export async function handleRedirectLoginResult() {
+  return getRedirectResult(auth);
 }
 
 export async function logout() {

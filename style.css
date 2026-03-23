@@ -20,11 +20,13 @@ color: var(--text-dark); - ciemny tekst w edytorze
   --border-light: #e1e5e9;
   --btn-light: #f7f0e3;
   --date-light: #a99c8b;
-  --btn-hover: #fffbf9;
+  --btn-hover: #d2c6b7;
   --focused-editor-bg: #ffffff;
   --btns-SaveAndCancel:#E4D4C4;
   --btns-SaveAndCancel-hover:#634c46;
   --btns-SaveAndCancel-text-hover:rgb(238, 238, 238);
+  --search-category-focus: #f8d8b0;
+  --active-btn: #cbbfae
 }
 
 [data-theme="dark"] {
@@ -43,8 +45,35 @@ color: var(--text-dark); - ciemny tekst w edytorze
   --btns-SaveAndCancel: #634c46;
   --btns-SaveAndCancel-hover: #E4D4C4;
   --btns-SaveAndCancel-text-hover: #3e3e3e;
+   --search-category-focus: #f9eeee;
+   --active-btn: #262326;
 }
 /* CSS usual */
+
+button,
+a,
+select,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus,
+a:focus,
+select:focus,
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(168, 159, 148, 0.45);
+  outline-offset: 2px;
+}
 
 body {
     padding: 0;
@@ -70,7 +99,7 @@ h1, h2, h3, h4, h5, h6, p {
 
 #header_sec {
     text-align: center;
-    padding-top: 80px;
+    padding-top: 20px;
     padding-bottom: 20px;
     margin-bottom: 20px;
 }
@@ -78,7 +107,7 @@ h1, h2, h3, h4, h5, h6, p {
 #h1header {
     font-size: 48px;
     font-weight: 700;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     letter-spacing: 6px;
 }
 
@@ -100,9 +129,12 @@ h1, h2, h3, h4, h5, h6, p {
     width: 90%;
     margin: 0 auto;
     gap: 20px;
-    padding: 32px;
+    padding: 12px;
     background-color: var(--bg-panel);
     border-radius: 8px;
+    margin-bottom: 20px;
+    border-radius: 24px;
+     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
 
 #journal_editor{
@@ -118,7 +150,7 @@ h1, h2, h3, h4, h5, h6, p {
     font-size: 18px;
     font-family: "Lora";
     line-height: 1.9;
-    border-radius: 4px;
+    border-radius: 24px;
     letter-spacing: 0.03em;
     color: var(--text-dark);
 }
@@ -128,6 +160,7 @@ h1, h2, h3, h4, h5, h6, p {
   height: auto;
   overflow: hidden;
   background-color: var(--bg-body);
+  
 }
 
 p#journal_label{
@@ -135,15 +168,14 @@ p#journal_label{
     font-size: 18px;
     font-weight: 400;
     letter-spacing: 0.10em;
-    margin-bottom: -5px;
-    margin-top: -15px;
     text-align: center;
     font-family: 'Lora'
 }
+
 #entry_category {
     padding: 10px 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 24px;
     color: var(--text-dark);
     font-size: 16px;
     min-width: 180px;
@@ -159,7 +191,7 @@ p#journal_label{
     font-weight: 400;
     font-size: 23px;
     border: none;
-    border-radius: 4px;
+    border-radius: 24px;
     box-sizing: border-box;
     letter-spacing: 0.05em;
     color: var(--text-dark);
@@ -173,9 +205,9 @@ p#journal_label{
 
 #save_journal_button {
     width: 100%;
-    padding: 10px 0;
+    padding: 10px ;
     border: none;
-    border-radius: 4px;
+    border-radius: 24px;
     background-color: var(--btn-light);
     color: var(--bg-panel);
     font-size: 14px;
@@ -186,11 +218,12 @@ p#journal_label{
 }
 
 #save_journal_button:hover {
-  background-color: var(--btn-hover);
-
+  background-color: var(--btn-hover);;
+  transition: background-color 0.3s, transform 0.2s;
 }
 #save_journal_button:active {
-  background-color: #CBB8A3;
+  background-color: var(--active-btn);
+  transform: translateY(0) scale(0.98);
 }
 
 /* ENTRIES */
@@ -200,41 +233,63 @@ p#journal_label{
 #entries_sec {
     max-width: 960px;
     width: 90%;
-    margin: 40px auto 0;
+    margin: 0px auto 0;
     
 }
 
-#search_input {
-  width: 260px;
-  padding: 6px 10px;
-  border: 1px solid #D0C4B5;
-  border-radius: 20px;
-  font-size: 13px;
-  background-color: var(--bg-body);
-   outline: none;
-    box-shadow: 0 0 5px #A89F94;
- margin-bottom: 10px;
- color: var(--text-dark);
-}
-
+#search_input,
 #categoryfilter {
-   width: 260px;
-  padding: 6px 10px;
+  width: 320px;
+  height: 50px;
+  padding: 0 18px;
   border: 1px solid #D0C4B5;
-  border-radius: 20px;
-  font-size: 13px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-family: "Lora";
   background-color: var(--bg-body);
   color: var(--text-dark);
-   outline: none;
-    box-shadow: 0 0 5px #A89F94;
- margin-bottom: 10px;
-
+  outline: none;
+  box-sizing: border-box;
+  box-shadow: 0 0 5px #A89F94;
+  margin-bottom: 10px;
 }
+
+#search_input::placeholder {
+  color: var(--text-muted);
+}
+
 #categoryfilter + #searchinput {
     margin-left: 0;  /* Reset margin */
     margin-bottom: 0;  /* Reset margin */
 }
 
+#categoryfilter {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding-right: 46px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2390877d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  background-size: 12px;
+}
+
+#categoryfilter.has-value {
+  color: var(--text-dark);
+}
+
+#search_input:focus,
+#categoryfilter:focus {
+  border-color: var(--search-category-focus);
+  box-shadow: 0 0 0 2px rgba(70, 67, 63, 0.25);
+}
+
+#search_input:hover,
+#categoryfilter:hover {
+  box-shadow: 0 4px 14px rgba(168, 159, 148, 0.25);
+}
 /* ENTRIES */
 
 #entries_container {
@@ -244,7 +299,7 @@ p#journal_label{
 }
 
 .journal_entry {
-   margin: 1rem 0 1.5rem 0;  /* tylko góra/dół, brak lewo/prawo */
+  margin: 1rem 0 1.5rem 0;  /* tylko góra/dół, brak lewo/prawo */
   padding: 1.25rem 1.5rem;
   background: var(--bg-card);
   border-radius: 12px;
@@ -279,7 +334,32 @@ p#journal_label{
 
 .journal_entry {
   position: relative;
+  padding: 28px 30px 24px;
+  cursor: pointer;
 }
+
+.journal_entry:hover {
+  box-shadow:
+    0 20px 5px rgba(0, 0, 0, 0.18),
+    0 10px 10px rgba(0, 0, 0, 0.06);
+  transform: translatey(-2px);
+  transition: transform 0.2s;
+}
+.journal_entry:not(:hover) {
+  transition: transform 0.2s;
+}
+
+.journal_entry:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.entry-actions button:hover {
+  opacity: 0.75;
+  transform: scale(1.20);
+}
+
+
 
 .journal_entry_delete {
   position: absolute;
@@ -293,6 +373,7 @@ p#journal_label{
 }
 .journal_entry_delete:hover {
   color: var(--bg-panel);
+  transform: scale(1.2);
   transition: color 0.3s;
 }
 .journal_entry_delete:not(:hover) {
@@ -310,7 +391,8 @@ p#journal_label{
   cursor: pointer;
 }
 .journal_entry_edit:hover {
-  color: var(--bg-panel);
+  color: var(--btn);
+  transform: scale(1.2);
   transition: color 0.3s;
 }
 .journal_entry_edit:not(:hover) {
@@ -331,7 +413,9 @@ p#journal_label{
   display: none;
   max-width: 800px;
   width: 90%;
-  margin: 10px auto 120px;
+  margin: 0px auto 120px;
+  padding: 0px;
+  margin-top: -30px;
 }
 
 
@@ -344,6 +428,7 @@ p#journal_label{
     0 4px 10px rgba(0, 0, 0, 0.06);
   padding: 26px 36px;
   position: relative;
+  
 }
 
 .entry_detail_card h2 {
@@ -376,10 +461,10 @@ p#journal_label{
   border: none;
   background-color: var(--btn-light);
   color:var(--bg-panel);
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 6px 14px;
+  padding: 0px 14px;
   border-radius: 999px;
   cursor: pointer;
   margin-bottom: 16px;
@@ -388,17 +473,30 @@ p#journal_label{
 
 #BackAllEntries:hover {
   background-color: var(--btn-hover);
+  transform: translateY(-1px);
   transition: 0.2s;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12)
 }
+
 #BackAllEntries:not(:hover) {
   transition: 0.2s;
+}
+
+#BackAllEntries:active {
+  background-color: var(--active-btn);
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15)
+}
+
+.detail-actions-bottom {
+  display: none;
 }
 
 .detail-header-btn {
   border: none;
   background-color: var(--btn-light);
   color: var(--bg-panel);
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 6px 14px;
@@ -416,13 +514,25 @@ p#journal_label{
 .detail-header-btn:hover {
   background-color: var(--btn-hover);
   transition: 0.2s;
+  
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12)
+  
 }
 .detail-header-btn:not(:hover) {
   transition: 0.2s;
 }
 
+.detail-header-btn:active {
+   background-color: var(--active-btn);
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15)
+}
 
-
+.dark .detail-header-btn #BackAllEntries {
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 6px 14px rgba(0,0,0,0.35);
+  
+}
 
 
 /* CATEGORY BADGE */
@@ -615,6 +725,7 @@ p#journal_label{
     
     background: var(--btns-SaveAndCancel-hover);
     color: var(--btns-SaveAndCancel-text-hover);
+    transform: translateY(-1px);
     transition: background-color 0.3s, color 0.3s;
     box-shadow: 3px 8px 2px rgba(99, 76, 70, 0.3);
     transition: all 0.3s;
@@ -624,7 +735,7 @@ p#journal_label{
     background: var(--btns-SaveAndCancel-hover);
     color: var(--btns-SaveAndCancel-text-hover);
     transition: color 0.3s, color 0.3s;
-    
+    transform: translateY(-1px);
     box-shadow: 3px 8px 2px rgba(99, 76, 70, 0.3);
     transition: all 0.3s;
 }
@@ -645,7 +756,13 @@ p#journal_label{
     box-shadow: 1px 5px 2px rgba(99, 76, 70, 0.3);
     transition: all 0.3s;
 
-} 
+}
+
+.cancel-edit-button:active, .save-edit-button:active {
+    background-color: var(--active-btn);
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15)
+}
 
 .title_category_after_edit {
  
@@ -664,7 +781,7 @@ p#journal_label{
     top: 20px;
     right: 20px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin: 0 auto;
     
 }
@@ -729,14 +846,11 @@ p#journal_label{
     padding: 0 4px;
   }
 
-  #journal {
-    max-width: 100vw;
-    width: 100%;
-    padding: 16px 8px;
-    padding-top: 29px;
-    margin: 0;
-    
-
+   #journal {
+    width: calc(100% - 32px);
+    padding: 18px 14px 16px;
+    border-radius: 22px;
+    margin-top: 22px;
   }
 
   #journal_label {
@@ -802,6 +916,51 @@ p#journal_label{
     
   }
 
+  @media (max-width: 600px) {
+
+    .detail-actions-top {
+  display: none;
+}
+
+  .entry_detail_header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 8px;
+  margin-bottom: 10px;
+}
+
+#BackAllEntries {
+  width: fit-content;
+  align-self: flex-start;
+  margin-bottom: 0;
+  padding: 10px 16px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+
+.detail-actions-bottom {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 60%;
+  margin-top: 22px;
+  margin-left: auto;
+}
+
+.detail-actions-bottom .detail-header-btn {
+  flex: 1;
+  min-height: 40px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+  font-size: 11px;
+}
+  
+  }
   
   #editCategory {
     width: 95%;

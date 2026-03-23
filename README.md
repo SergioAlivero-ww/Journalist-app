@@ -330,3 +330,33 @@ Zmiany te poprawiają doświadczenie użytkownika oraz przygotowują aplikację 
 - Dropdown filtruje kategorie podczas wpisywania
 - Kliknięcie kategorii uzupełnia pole `category`
 - Dropdown zamyka się po kliknięciu poza nim
+
+## 20.03.2026
+
+### Mobile UX & UI
+
+- Poprawiono responsywność aplikacji na urządzeniach mobilnych  
+- Dostosowano spacing (margin, padding) dla lepszej czytelności  
+- Zwiększono przyciski i obszary kliknięcia (lepszy touch UX)  
+- Ulepszono layout edytora na telefonie (czytelność, brak nachodzenia elementów)  
+- Poprawiono flow między widokami (lista ↔ edytor)  
+
+## 21.03.2026
+
+### Firebase Auth (Google Login)
+
+- Dodano logowanie przez Google (Firebase Authentication)  
+- Zaimplementowano `signInWithPopup` (desktop) oraz `signInWithRedirect` (mobile)  
+- Dodano obsługę `getRedirectResult()` po powrocie z logowania na mobile  
+- Skonfigurowano Firebase Auth oraz Google Cloud (OAuth 2.0)  
+- Dodano poprawne domeny (`web.app`, `firebaseapp.com`) do authorized domains i redirect URIs  
+- Naprawiono problem z logowaniem na urządzeniach mobilnych (redirect flow)  
+
+### Deployment
+
+- Aplikacja dostępna publicznie pod adresem:  
+  👉 https://journalist-e3348.web.app  
+- Możliwość rejestracji i logowania przez Google  
+- Dane użytkownika zapisywane w Firestore  
+- Aplikacja gotowa do normalnego użytkowania  
+

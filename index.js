@@ -1,6 +1,7 @@
 
 
 
+
 /* ================================
    IMPORTS
 ================================ */
@@ -43,6 +44,8 @@ const deleteModal = document.getElementById("deleteModal");
 const deleteConfirmBtn = document.getElementById("deleteConfirm");
 const deleteCancelBtn = document.getElementById("deleteCancel");
 const categoryDropdown = document.getElementById("category_dropdown");
+const select = document.getElementById("categoryfilter");
+const categoryFilter = document.getElementById("categoryfilter");
 
 /* ================================
    STATE
@@ -480,7 +483,7 @@ function populateCategoryFilter() {
     const select = document.getElementById('categoryfilter');
     const categories = [...new Set(entries.map(entry => entry.category))];  // Unikalne kategorie
     
-    select.innerHTML = '<option value="">Wszystkie kategorie</option>';
+    select.innerHTML = '<option value="">Choose category</option>';
     categories.forEach(cat => {
         const option = document.createElement('option');
         option.value = cat;
@@ -490,6 +493,13 @@ function populateCategoryFilter() {
 };
 populateCategoryFilter();   
 
+function updateCategoryFilterState() {
+  if (categoryFilter.value === "") {
+    categoryFilter.classList.remove("has-value");
+  } else {
+    categoryFilter.classList.add("has-value");
+  }
+}
 
 /* ================================
    ENTRY LOGIC
@@ -526,40 +536,49 @@ function openEntry(id) {
     minute: '2-digit'
   });
 
-  entryDetail.innerHTML = `
-    <div class="entry_detail_header">
-      <button id="BackAllEntries" class="detail-header-btn">← All entries</button>
-      <div class="detail-header-right">
-        <button id="editFromDetail" class="detail-header-btn">✎ Edit</button>
-        <button id="shareEntry" class="detail-header-btn">⤴ Share</button>
+ entryDetail.innerHTML = `
+  <div class="entry_detail_header">
+    <button id="BackAllEntries" class="detail-header-btn">← All entries</button>
+
+    <div class="detail-header-right detail-actions-top">
+      <button id="editFromDetail" class="detail-header-btn">✎ Edit</button>
+      <button id="shareEntry" class="detail-header-btn">⤴ Share</button>
+    </div>
+  </div>
+
+  <article class="entry_detail_card" id="detailCard">
+    <div id="readMode">
+      <div class="title_category_detail">
+        <h2 class="title">${entry.title}</h2>
+        <span class="category-badge">${entry.category}</span>
       </div>
+
+      <div class="detail_meta">
+        <small>${date}</small>
+      </div>
+
+      <p class="full-entry-content">${entry.content}</p>
     </div>
 
-    <article class="entry_detail_card" id="detailCard">
-      <div id="readMode">
-        <div class="title_category_detail">
-          <h2 class="title">${entry.title}</h2>
-          <span class="category-badge">${entry.category}</span>
-        </div>
-        <div class="detail_meta">
-          <small>${date}</small>
-        </div>
-        <p class="full-entry-content">${entry.content}</p>
-      </div>
+    <div id="editMode" style="display: none;">
+      <input type="text" id="editTitle" value="${entry.title}" placeholder="Tytuł...">
+      <textarea id="editContent">${entry.content}</textarea>
 
-      <div id="editMode" style="display: none;">
-        <input type="text" id="editTitle" value="${entry.title}" placeholder="Tytuł...">
-        <textarea id="editContent">${entry.content}</textarea>
-        <div class="edit_category_row">
-          <input type="text" id="editCategory" value="${entry.category}">
-          <div class="save_cansel_buttons">
-            <button id="saveEditDetail" class="save-edit-button">Save</button>
-            <button id="cancelEditDetail" class="cancel-edit-button">Cancel</button>
-          </div>
+      <div class="edit_category_row">
+        <input type="text" id="editCategory" value="${entry.category}">
+        <div class="save_cancel_buttons">
+          <button id="saveEditDetail" class="save-edit-button">Save</button>
+          <button id="cancelEditDetail" class="cancel-edit-button">Cancel</button>
         </div>
       </div>
-    </article>
-  `;
+    </div>
+  </article>
+
+  <div class="detail-actions-bottom">
+    <button id="editFromDetailMobile" class="detail-header-btn">✎ Edit</button>
+    <button id="shareEntryMobile" class="detail-header-btn">⤴ Share</button>
+  </div>
+`;
 
   // BACK
   document.getElementById('BackAllEntries')?.addEventListener('click', () => {
@@ -572,6 +591,11 @@ function openEntry(id) {
     document.getElementById('readMode').style.display = 'none';
     document.getElementById('editMode').style.display = 'block';
   });
+
+  document.getElementById('editFromDetailMobile')?.addEventListener('click', () => {
+  document.getElementById('readMode').style.display = 'none';
+  document.getElementById('editMode').style.display = 'block';
+});
 
   // CANCEL
   document.getElementById('cancelEditDetail')?.addEventListener('click', () => {
@@ -615,6 +639,28 @@ openEntry(id);
 });
   // SHARE
 document.getElementById('shareEntry')?.addEventListener('click', async () => {
+  if (!currentUser) return alert("Zaloguj się.");
+
+  const url = new URL(window.location.origin + window.location.pathname);
+  url.searchParams.set("share", id);
+
+  const copied = await copyText(url.toString());
+
+  if (copied) {
+    showToast("Link copied");
+  } else {
+    showToast("Copy failed");
+  }
+
+  try {
+    await publishEntryPublic(entry);
+  } catch (e) {
+    console.error("Publish error:", e);
+    showToast("Sharing failed");
+  }
+});
+
+document.getElementById('shareEntryMobile')?.addEventListener('click', async () => {
   if (!currentUser) return alert("Zaloguj się.");
 
   const url = new URL(window.location.origin + window.location.pathname);
@@ -776,6 +822,16 @@ journalTitle.addEventListener("input", saveDraft);
 categoryInput.addEventListener("input", saveDraft);
 journal.addEventListener("input", saveDraft);
 
+select.addEventListener("change", () => {
+  if (select.value === "") {
+    select.classList.remove("has-value");
+  } else {
+    select.classList.add("has-value");
+  }
+});
+
+categoryFilter.addEventListener("change", updateCategoryFilterState);
+updateCategoryFilterState();
 
 /* ================================
    AUTH
@@ -852,6 +908,8 @@ async function boot() {
   loadDraft();
 }
 boot();
+
+
 
 
 /* if ('serviceWorker' in navigator) {

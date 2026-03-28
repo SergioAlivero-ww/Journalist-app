@@ -5,9 +5,12 @@ Focused on clean UX, writing flow and mobile experience.
 
 Built as a portfolio project to practice real-world frontend architecture with Firebase backend, authentication and state management.
 
-👉 Live demo: https://journalist-e3348.web.app
+## 🔗 Links
 
----
+- Live demo: https://journalist-e3348.web.app
+- GitHub repository: https://github.com/SergioAlivero-ww/Journalist-app
+
+
 
 ## ✨ Features
 

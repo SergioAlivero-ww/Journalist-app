@@ -360,3 +360,30 @@ Zmiany te poprawiają doświadczenie użytkownika oraz przygotowują aplikację 
 - Dane użytkownika zapisywane w Firestore  
 - Aplikacja gotowa do normalnego użytkowania  
 
+## 2026-03-23
+
+### Mobile UX / UI – detail view
+
+- przebudowano układ detail view na mobile
+- oddzielono nawigację (Back) od akcji (Edit / Share)
+- przeniesiono przyciski Edit / Share pod kartę wpisu
+- dodano osobny layout dla mobile (bez wpływu na desktop)
+- poprawiono proporcje przycisków (mniejsze, lżejsze, wyrównane do prawej)
+- poprawiono spacing między kartą a akcjami
+
+Efekt:
+- czytelniejsza hierarchia
+- lepszy UX na telefonie (thumb-friendly)
+- bardziej “produktowy” wygląd
+
+
+## 2026.03.28
+
+- poprawiono UX detail view – po otwarciu wpisu aplikacja zawsze scrolluje do góry (window.scrollTo(0, 0)), dzięki czemu nagłówek i layout są spójne
+- naprawiono zawijanie długich treści w detail view (overflow-wrap, word-break) – brak wychodzenia tekstu poza kartę
+- ulepszono textarea – rośnie do określonego momentu, potem scroll (lepsze UX przy długich wpisach)
+- poprawiono toasty – lepsze zachowanie przy długich komunikatach
+- usunięto natywne alerty → zastąpione custom toastami
+- poprawiono mobile UX (tap highlight, active state, focus)
+- wyrównano przyciski „Wyloguj” i „Dark” (lepsza symetria headera)
+

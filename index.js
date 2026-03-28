@@ -93,8 +93,20 @@ if (themeToggle) {
 ========================= */
 
 function autoResize() {
-    journal.style.height = "auto";
+  const isMobile = window.matchMedia("(max-width: 600px)").matches;
+
+  journal.style.height = "auto";
+
+  if (isMobile) {
+    const maxHeight = window.innerHeight * 0.55; // około 42vh
+    const nextHeight = Math.min(journal.scrollHeight, maxHeight);
+
+    journal.style.height = `${nextHeight}px`;
+    journal.style.overflowY = journal.scrollHeight > maxHeight ? "auto" : "hidden";
+  } else {
     journal.style.height = journal.scrollHeight + "px";
+    journal.style.overflowY = "hidden";
+  }
 }
 journal.addEventListener('input', autoResize);
 autoResize();
@@ -319,9 +331,9 @@ async function refreshEntries() {
 
 async function persistEntry(entry) {
   if (!currentUser) {
-    alert("Zaloguj się, żeby zapisywać.");
-    return false;
-  }
+  showToast("Log in to save entries");
+  return false;
+}
 
   try {
     await saveEntry(currentUser.uid, entry); // działa jako create + update
@@ -329,7 +341,7 @@ async function persistEntry(entry) {
     return true;
   } catch (e) {
     console.error("PERSIST ERROR:", e);
-    alert("Błąd zapisu do Firestore.");
+    showToast("Saving failed");
     return false;
   }
 };
@@ -580,6 +592,13 @@ function openEntry(id) {
   </div>
 `;
 
+requestAnimationFrame(() => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
+
   // BACK
   document.getElementById('BackAllEntries')?.addEventListener('click', () => {
     clearEntryIdFromURL();
@@ -608,22 +627,23 @@ document.getElementById('saveEditDetail')?.addEventListener('click', async () =>
   const newContent = document.getElementById('editContent')?.value.trim();
   const newCategory = document.getElementById('editCategory')?.value.trim() || 'Uncategorized';
 
-  if (!newTitle || !newContent) {
-    alert("Tytuł i treść nie mogą być puste!");
-    return;
-  }
 
+
+  if (!newTitle || !newContent) {
+  showToast("Title and content cannot be empty");
+  return;
+}
   if (!currentUser) {
-    alert("Zaloguj się.");
-    return;
-  }
+  showToast("Log in first");
+  return;
+}
 
   // bierzemy NAJŚWIEŻSZY wpis z entries, a nie stary obiekt z openEntry()
   const existing = entries.find(e => e.id === id);
   if (!existing) {
-    alert("Nie znaleziono wpisu.");
-    return;
-  }
+  showToast("Entry not found");
+  return;
+}
 
   const updatedEntry = {
   ...entry,
@@ -690,6 +710,10 @@ document.getElementById('shareEntryMobile')?.addEventListener('click', async () 
   mainSec.style.display = 'none';
   entriesSec.style.display = 'none';
   entryDetail.style.display = 'block';
+
+  requestAnimationFrame(() => {
+  window.scrollTo(0, 0);
+});
 };
 
 /* ================================
@@ -719,28 +743,28 @@ saveButton.addEventListener('click', async () => {
 
   const text = journal.value.trim();
   if (!text) {
-    alert("Journal entry cannot be empty!");
-    return;
-  }
+  showToast("Entry cannot be empty");
+  return;
+}
   const title = journalTitle.value.trim();
   if (!title) {
-    alert("Journal entry must have a title!");
-    return;
-  }
+  showToast("Title is required");
+  return;
+}
   const categoryEl = document.getElementById('entry_category');
   const category = categoryEl.value.trim() || 'Uncategorized';
   if (!currentUser) {
-    alert("Zaloguj się, żeby zapisywać.");
-    return;
-  }
+  showToast("Log in to save entries");
+  return;
+}
   let entryToPersist;
   const isEditing = currentlyEditingId !== null;
   if (isEditing) {
     const existing = entries.find(e => e.id === currentlyEditingId);
     if (!existing) {
-      alert("Nie znaleziono wpisu do edycji.");
-      return;
-    }
+  showToast("Entry not found");
+  return;
+}
     entryToPersist = {
       ...existing,
       title,
@@ -753,6 +777,8 @@ saveButton.addEventListener('click', async () => {
   }
   const ok = await persistEntry(entryToPersist);
 if (!ok) return;
+
+showToast("Entry saved");
 
   clearDraft();
   // czyścimy pola TYLKO po udanym zapisie
@@ -777,7 +803,7 @@ deleteConfirmBtn?.addEventListener("click", async () => {
   if (!currentUser) {
     deleteModal.classList.add("hidden");
     entryToDelete = null;
-    return alert("Zaloguj się.");
+    return showToast("Log in first");
   }
 
   try {
@@ -785,7 +811,7 @@ deleteConfirmBtn?.addEventListener("click", async () => {
     await refreshEntries();
   } catch (e) {
     console.error("FIRESTORE DELETE ERROR:", e);
-    alert("Błąd usuwania w Firestore.");
+    showToast("Delete failed");
   }
 
   deleteModal.classList.add("hidden");

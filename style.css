@@ -1113,7 +1113,34 @@ p#journal_label{
   .auth-btn {
     width: 100%;
   }
+
+  @media (max-width: 600px) {
+  .title_category {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  padding-right: 90px;
 }
+
+  .title_category .category-badge {
+    display: block;
+    width: fit-content;
+    margin-top: 10px;
+  }
+
+  .category-badge {
+  margin-bottom: 6px;
+}
+
+  .journal_entry_title {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.15;
+    margin-bottom: 0;
+  }
+}
+}
+
 
 
 /* AUTH */
